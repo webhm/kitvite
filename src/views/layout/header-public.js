@@ -1,8 +1,5 @@
-import m from "mithril";
-
-// HeaderPublic
-class HeaderPublic  {
-    view() {
+const HeadPublic = {
+    view: () => {
         return [
             m("header.navbar.navbar-header.navbar-header-fixed", [
 
@@ -17,7 +14,8 @@ class HeaderPublic  {
 
             ])
         ];
-    }
-}
+    },
 
-export default HeaderPublic;
+};
+
+export default HeadPublic;
