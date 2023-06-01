@@ -1,3 +1,4 @@
+import m from 'mithril';
 import SidebarRight from './sidebarRight';
 import Encrypt from '../../models/encrypt';
 

@@ -1,4 +1,5 @@
 // Pages here
+import m from 'mithril';
 import App from '../views/app'
 import RedirMV from '../views/redir'
 import Salir from '../views/salir'
@@ -727,13 +728,13 @@ const Routes = {
                 return m.route.SKIP;
             }
         }
-    }, 
+    },
     '/patologia/pedidos/editarinforme': {
         view: (_data) => {
             return m(editarInforme, {
                 "informeId": _data.attrs.informeId,
                 "informeModelo": _data.attrs.informeId
-                
+
             });
             if (_data.attrs.informeId !== undefined) {
                 return m(editarInforme, {
@@ -743,7 +744,7 @@ const Routes = {
                 return m.route.SKIP;
             }
         }
-    }, 
+    },
     '/patologia/gestionPlantillaMacroscopico': {
         view: (_data) => {
             return [

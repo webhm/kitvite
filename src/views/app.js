@@ -1,3 +1,5 @@
+
+import m from 'mithril';
 import Auth from '../models/auth';
 import Loader from './loader';
 import Encrypt from '../models/encrypt';
@@ -46,12 +48,14 @@ const App = {
 
     },
     isAuth: (modulo = "", idModulo = 0) => {
-        if (!Auth.isLogin()) {
+
+        let _user = Encrypt.getDataUser();
+
+        if (!Auth.isLogin() || _user == null) {
             return m.route.set('/auth');
         }
 
 
-        let _user = Encrypt.getDataUser();
         Auth.user = _user.user;
         Auth.rol = _user.user.rol;
         Auth.modulesAccess = _user.modulesAccess;

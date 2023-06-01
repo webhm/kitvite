@@ -1,3 +1,4 @@
+import m from 'mithril';
 import HeaderPrivate from '../layout/header-private';
 import SidebarPato from './utils/sidebarPato';
 import App from '../app';

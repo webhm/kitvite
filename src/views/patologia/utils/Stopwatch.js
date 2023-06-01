@@ -1,3 +1,4 @@
+import m from 'mithril';
 import stopwatchModel from '../utils/stopwatchModel';
 
 const actions = {

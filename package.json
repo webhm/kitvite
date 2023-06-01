@@ -7,13 +7,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "mithril": "^2.0.4",
+    "mithril": "^2.0.4"
+  },
+  "devDependencies": {
     "@pusher/push-notifications-web": "^1.1.0",
     "crypto-js": "^4.1.1",
     "localstorage-slim": "^2.3.0",
+    "vite": "^2.6.2",
     "xml-js": "^1.6.11"
-  },
-  "devDependencies": {
-    "vite": "^2.6.2"
   }
 }

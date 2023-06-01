@@ -1,3 +1,4 @@
+import m from 'mithril';
 import Auth from '../../models/auth';
 import Notificaciones from '../../models/notificaciones';
 
