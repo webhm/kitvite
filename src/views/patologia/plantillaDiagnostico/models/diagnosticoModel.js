@@ -1,3 +1,5 @@
+import api_url from '../../api_url';
+
 let diagnosticoModel = {
     listado: [],
     usuario: '',
@@ -7,7 +9,7 @@ let diagnosticoModel = {
         diagnosticoModel.loading = true;
         m.request({
             method: "GET",
-            url: "http://localhost:8000/api/v1/plantilladiagnostico?usuario=" + usuario,
+            url: api_url + "/v1/plantilladiagnostico?usuario=" + usuario,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
