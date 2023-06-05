@@ -1,4 +1,7 @@
+import m from 'mithril';
+
 import Auth from '../../models/auth';
+
 import App from '../app';
 
 const FormLogin = {
