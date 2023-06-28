@@ -1,3 +1,4 @@
+import m from 'mithril';
 import HeaderPrivate from '../../layout/header-private';
 import SidebarPato from '../utils/sidebarPato';
 import BreadCrumb from '../../layout/breadcrumb';
@@ -61,9 +62,8 @@ const listadoFirmas = {
                     m("h1.df-title.mg-t-20.mg-b-10", "Firma del Patólogo para Informes"),
                     m("table.table", {style: {"width": "100%"}}, [
                         m("tr", [
-                            m("th.tx-12.thead-light", {scope: "col", style: {'width': '20%'}}, "CI Médico"),
+                            m("th.tx-12.thead-light", {scope: "col", style: {'width': '20%'}}, "No. Médico"),
                             m("th.tx-12.thead-light", {scope: "col", style: {'width': '60%'}}, "Nombre Médico"),
-                            m("th.tx-12.thead-light", {scope: "col", style: {'width': '20%'}}, "Firma Médico")
                         ]),
                     ]),
                     m("table.table#listado-firmas"),

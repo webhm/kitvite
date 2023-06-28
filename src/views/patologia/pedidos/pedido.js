@@ -1,7 +1,7 @@
+import m, { redraw } from 'mithril';
 import HeaderPrivate from '../../layout/header-private';
 import SidebarPato from '../utils/sidebarPato';
 import App from '../../app';
-import m, { redraw } from 'mithril';
 import PedidoPatologias from './pedidos';
 import BreadCrumb from '../../layout/breadcrumb';
 import listadoMuestras from '../muestras/listadoMuestras';

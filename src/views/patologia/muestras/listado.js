@@ -1,3 +1,4 @@
+import m from 'mithril';
 import muestraModel from './models/muestraModel';
 import editarMuestra from './editarMuestra';
 import asociarExamenes from './asociarExamenes';

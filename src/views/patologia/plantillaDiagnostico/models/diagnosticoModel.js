@@ -1,17 +1,16 @@
 import m from 'mithril';
-
-import api_url from '../../api_url';
+import api_url from '../../utils/api_url';
 
 let diagnosticoModel = {
     listado: [],
     usuario: '',
     loading: false,
 
-    cargarListado: function (usuario) {
+    cargarListado: function(usuario) {
         diagnosticoModel.loading = true;
         m.request({
             method: "GET",
-            url: api_url + "/v1/plantilladiagnostico?usuario=" + usuario,
+            url: api_url + "api/v1/plantilladiagnostico?usuario=" + usuario,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -19,81 +18,81 @@ let diagnosticoModel = {
                 "Authorization": localStorage.accessToken,
             },
         })
-            .then(function (result) {
-                if (result.status) {
-                    diagnosticoModel.listado = result.plantillas;
-                    diagnosticoModel.usuario = usuario;
-                    diagnosticoModel.loading = false;
-                }
-                else {
-                    diagnosticoModel.loading = false;
-                    diagnosticoModel.error = result.message;
-                }
-            })
-            .catch(function (error) {
-                diagnosticoModel.loading = false;
-                diagnosticoModel.error = "Se produjo error cargando las plantillas: " + error.stack;
-                alert(diagnosticoModel.error);
-            })
+        .then(function(result) {
+            if (result.status) {
+                diagnosticoModel.listado = result.plantillas;
+                diagnosticoModel.usuario = usuario;                
+                diagnosticoModel.loading = false;  
+            }
+            else {                
+                diagnosticoModel.loading = false;  
+                diagnosticoModel.error = result.message;
+            }
+        })
+        .catch(function(error) {            
+            diagnosticoModel.loading = false;  
+            diagnosticoModel.error = "Se produjo error cargando las plantillas: " + error.stack;
+            alert(diagnosticoModel.error);
+        })
     },
 
     guardar: (plantilla) => {
         m.request({
             method: 'POST',
-            url: "http://localhost:8000/api/v1/plantilladiagnostico",
-            body: plantilla,
+            url: api_url + "api/v1/plantilladiagnostico",
+            body:  plantilla,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 "Accept": "application/json",
                 "Authorization": localStorage.accessToken,
             },
         })
-            .then(function (result) {
-                diagnosticoModel.cargarListado(diagnosticoModel.usuario);
-            })
-            .catch(function (error) {
-                diagnosticoModel.error = "Se produjo error guardando la plantilla: " + error.stack;
-                alert(diagnosticoModel.error);
-            })
+        .then(function(result) {
+            diagnosticoModel.cargarListado(diagnosticoModel.usuario);
+        })
+        .catch(function(error) {
+            diagnosticoModel.error = "Se produjo error guardando la plantilla: " + error.stack;
+            alert(diagnosticoModel.error);
+        }) 
     },
 
     actualizar: (plantilla) => {
         m.request({
             method: 'PUT',
-            url: "http://localhost:8000/api/v1/plantilladiagnostico/" + parseInt(plantilla.id),
-            body: plantilla,
+            url: api_url + "api/v1/plantilladiagnostico/" + parseInt(plantilla.id),
+            body:  plantilla,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 "Accept": "application/json",
                 "Authorization": localStorage.accessToken,
             },
         })
-            .then(function (result) {
-                diagnosticoModel.cargarListado(diagnosticoModel.usuario);
-            })
-            .catch(function (error) {
-                diagnosticoModel.error = "Se produjo error guardando la plantilla: " + error.stack;
-                alert(diagnosticoModel.error);
-            })
-    },
+        .then(function(result) {
+            diagnosticoModel.cargarListado(diagnosticoModel.usuario);
+        })
+        .catch(function(error) {
+            diagnosticoModel.error = "Se produjo error guardando la plantilla: " + error.stack;
+            alert(diagnosticoModel.error);
+        }) 
+    }, 
 
     eliminar: (plantilla) => {
         m.request({
             method: 'DELETE',
-            url: "http://localhost:8000/api/v1/plantilladiagnostico/" + parseInt(plantilla.id),
+            url: api_url + "api/v1/plantilladiagnostico/" + parseInt(plantilla.id),
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 "Accept": "application/json",
                 "Authorization": localStorage.accessToken,
             },
         })
-            .then(function () {
-                diagnosticoModel.cargarListado(diagnosticoModel.usuario);
-            })
-            .catch(function (error) {
-                diagnosticoModel.error = "Se produjo error eliminando la plantilla: " + error.stack;
-                alert(diagnosticoModel.error);
-            })
+        .then(function() {            
+            diagnosticoModel.cargarListado(diagnosticoModel.usuario);
+        })
+        .catch(function(error) {
+            diagnosticoModel.error = "Se produjo error eliminando la plantilla: " + error.stack;
+            alert(diagnosticoModel.error);
+        }) 
     },
 }
 

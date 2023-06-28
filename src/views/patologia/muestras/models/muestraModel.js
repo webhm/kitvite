@@ -1,3 +1,6 @@
+import m from 'mithril';
+import api_url from '../../utils/api_url';
+
 let muestraModel = {
     listado: [],
     examenes: [],
@@ -13,7 +16,7 @@ let muestraModel = {
         muestraModel.loading = true;
         m.request({
             method: "GET",
-            url: "http://localhost:8000/api/v1/muestras?nopedidomv=" + numeropedidomv,
+            url: api_url + "api/v1/muestras?nopedidomv=" + numeropedidomv,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -61,7 +64,7 @@ let muestraModel = {
     generarSecuencial: function() {
         m.request({
             method: "GET",
-            url: "http://localhost:8000/api/v1/muestras/obtenersecuencial",
+            url: api_url + "api/v1/muestras/obtenersecuencial",
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -81,7 +84,7 @@ let muestraModel = {
     guardar: (muestra) => {
         m.request({
             method: 'POST',
-            url: "http://localhost:8000/api/v1/muestras?nopedidomv=" + muestraModel.numeroPedido,
+            url: api_url + "api/v1/muestras?nopedidomv=" + muestraModel.numeroPedido,
             body:  muestra,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -102,7 +105,7 @@ let muestraModel = {
     actualizar: (muestra) => {
         m.request({
             method: 'PUT',
-            url: "http://localhost:8000/api/v1/muestras/" + muestra.id + "?nopedidomv=" + muestraModel.numeroPedido,
+            url: api_url + "api/v1/muestras/" + muestra.id + "?nopedidomv=" + muestraModel.numeroPedido,
             body:  muestra,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -123,7 +126,7 @@ let muestraModel = {
     asociarExamen: (examen) => {
         m.request({
             method: 'POST',
-            url: "http://localhost:8000/api/v1/asociacionexamenes?nopedidomv=" + muestraModel.numeroPedido,
+            url: api_url + "api/v1/asociacionexamenes?nopedidomv=" + muestraModel.numeroPedido,
             body:  examen,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -143,7 +146,7 @@ let muestraModel = {
     eliminarExamenasociado: (idAsociacion) => {
         m.request({
             method: 'DELETE',
-            url: "http://localhost:8000/api/v1/asociacionexamenes/eliminarasociacion/" + idAsociacion + "?nopedidomv=" + muestraModel.numeroPedido,
+            url: api_url + "api/v1/asociacionexamenes/eliminarasociacion/" + idAsociacion + "?nopedidomv=" + muestraModel.numeroPedido,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 "Accept": "application/json",

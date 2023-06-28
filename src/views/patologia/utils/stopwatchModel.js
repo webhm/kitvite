@@ -1,5 +1,3 @@
-import m from 'mithril';
-
 function stopwatchModel() {
     return {
         interval: null,

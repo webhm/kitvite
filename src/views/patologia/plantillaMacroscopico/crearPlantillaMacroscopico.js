@@ -1,31 +1,65 @@
+import m from 'mithril';
 import macroscopicoModel from './models/macroscopicoModel';
-import Auth from '../../../models/auth';
-import App from '../../app';
 
 let macroscopicoModelo = macroscopicoModel;
 
 const crearPlantillaMacroscopico = {
-    oninit: () => { 
-        App.isAuth();
-    },
+    oninit: () => {},
     view: (vnode) => {
         return m("form#crear-plantillamacroscopico", [
             m("table.table", [
-                m("tr.nombreplantilla", [
-                    m("th.tx-12", "Nombre de la Plantilla"),
-                    m("td.tx-12", [
+                m("tr.plantilla", [
+                    m("th.tx-12", [
+                        m("label.tx-semibold.tx-12", "Nombre de la Plantilla"),
                         m("input.form-control[id='inputnombreplantilla'][type='text'][placeholder='Nombre de la Plantilla'][title='Nombre de la Plantilla']"),
+                    ]),
+                    m("th.tx-12", [
+                        m("label.tx-semibold.tx-12", "Descripción de la Plantilla"),
+                        m("input.form-control[id='inputdescripcionplantilla'][type='text'][placeholder='Descripción de la Plantilla'][title='Descripción de la Plantilla']"),
                     ]),
                 ]),
                 m("tr.plantilla", [
-                    m("th.tx-12", "Plantilla"),
-                    m("td.tx-12", [
-                        m("textarea.form-control[id='inputplantilla'][placeholder='Plantilla'][title='Plantilla']", {
+                    m("th.tx-12", [
+                        m("label.tx-semibold.tx-12", "Información Clínica"),
+                        m("textarea.form-control[id='textareainformacionclinica'][placeholder='Información Clínica'][title='Información Clínica']", {
                             style: "min-height: 100px",
                             rows: 4,
                         })
                     ]),
-                ]),                               
+                    m("th.tx-12", [
+                        m("label.tx-semibold.tx-12", "Dg presuntivo sin código"),
+                        m("textarea.form-control[id='textareadgpresuntivo'][placeholder='Dg presuntivo sin código'][title='Dg presuntivo sin código']", {
+                            style: "min-height: 100px",
+                            rows: 4,
+                        })
+                    ]),
+                ]),
+                m("tr.plantilla", [
+                    m("th.tx-12", [
+                        m("label.tx-semibold.tx-12", "Resultado Macroscópico"),
+                        m("textarea.form-control[id='textarearesultmacroscopico'][placeholder='Resultado Macróscopico'][title='Resultado Macróscopico']", {
+                            style: "min-height: 100px",
+                            rows: 4,
+                        })
+                    ]),
+                    m("th.tx-12", [
+                        m("label.tx-semibold.tx-12", "Resultado Microscópico"),
+                        m("textarea.form-control[id='textarearesultmicroscopico'][placeholder='Resultado Microscópico'][title='Resultado Microscópico']", {
+                            style: "min-height: 100px",
+                            rows: 4,
+                        })
+                    ]),
+                ]),
+                m("tr.plantilla", [
+                    m("th.tx-12", [
+                        m("label.tx-semibold.tx-12", "Diagnóstico"),
+                        m("textarea.form-control[id='textareadiagnostico'][placeholder='Diagnóstico'][title='Diagnóstico']", {
+                            style: "min-height: 100px",
+                            rows: 4,
+                        })
+                    ]),
+                    m("th.tx-12", []),
+                ]),      
                 m("tr", [
                     m("td.tx-12"),
                     m("td.tx-12", [
@@ -36,15 +70,15 @@ const crearPlantillaMacroscopico = {
                                     macroscopicoModelo.error = "El campo Nombre de la Plantilla es requerido";
                                     alert(macroscopicoModelo.error);
                                     vnode.dom['inputnombreplantilla'].focus();
-                                } else if (vnode.dom['inputplantilla'].value.length === 0) {
-                                    macroscopicoModelo.error = "El campo Plantilla es requerido";
-                                    alert(macroscopicoModelo.error);
-                                    vnode.dom['inputplantilla'].focus();
                                 } else {
                                     let plantilla = {                                   
                                         nombreplantilla: vnode.dom['inputnombreplantilla'].value,
-                                        nombreusuario: Auth.user.user,
-                                        plantilla: vnode.dom['inputplantilla'].value,
+                                        descripcion: vnode.dom['inputdescripcionplantilla'].value,
+                                        infoclinica: vnode.dom['textareainformacionclinica'].value,
+                                        dgpresuntivo: vnode.dom['textareadgpresuntivo'].value,
+                                        resultmacroscopico: vnode.dom['textarearesultmacroscopico'].value,
+                                        resultmicroscopico: vnode.dom['textarearesultmicroscopico'].value,
+                                        diagnostico: vnode.dom['textareadiagnostico'].value,
                                     }
                                     macroscopicoModelo.guardar(plantilla);
                                     m.mount(document.querySelector("#gestion-formulario"), null);

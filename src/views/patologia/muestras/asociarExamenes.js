@@ -1,3 +1,4 @@
+import m from 'mithril';
 import muestraModel from './models/muestraModel';
 
 let muestraModelo = muestraModel;

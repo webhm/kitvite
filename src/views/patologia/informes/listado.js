@@ -1,3 +1,4 @@
+import m from 'mithril';
 import informeModel from './models/informeModel';
 import editarInforme from './editarInforme';
 
@@ -15,16 +16,21 @@ const listado = {
                 return [
                     m("tr#" +  informe.id, [
                         m("th.tx-12.wd-10p", {scope: "row"}, informe.codigoinforme),
-                        m("th.tx-12.wd-55p", {scope: "row"}, [
+                        m("th.tx-12.wd-50p", {scope: "row"}, [
                             informe.muestrasAsociadas.map(function(muestra) {
                                 return m("p", {style: {"margin-bottom": "0"}}, muestra.id + '-' + muestra.descripcion)
                             })
                         ]),
-                        m("th.tx-12.wd-10p", {scope: "row"}, informe.estadopedido.siglas),
-                        m("td.tx-12.wd-25p", {scope: "col"}, [
+                        m("th.tx-12.wd-5p", {
+                            scope: "row", 
+                            title: informe.estadopedido.descripcion
+                        }, informe.estadopedido.siglas),
+                        m("td.tx-12.wd-35p", {scope: "row"}, [
                             m("div.mg-0.mg-t-5.text-left.float-left", [
                                 m("button.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
+                                    disabled: informe.estadopedido.siglas === "A" ? true : false,
                                     onclick: () => {
+                                        informeModelo.loading = true;
                                         m.mount(document.querySelector("#gestionpatologia"), {
                                             view: () => {
                                                 return m(editarInforme, {
@@ -35,6 +41,16 @@ const listado = {
                                         });
                                     }
                                 }, [m("i.fas.fa-edit.mg-r-5")], "Editar"),
+                            ]),
+                            m("div.mg-0.mg-t-5.text-left.float-left", [
+                                m("button#btnfinalizarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
+                                    disabled: informe.estadopedido.siglas === "A" ? true : false,
+                                    onclick: function() {
+                                        informeModelo.finalizar(informe.id);
+                                    }
+                                }, [
+                                    m("i.fas.mg-r-5", )], "Finalizar"
+                                ),
                             ]),
                             m("div.mg-0.mg-t-5.text-left.float-left", [
                                 m(m.route.Link, {

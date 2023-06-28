@@ -1,3 +1,6 @@
+import m from 'mithril';
+import api_url from '../../utils/api_url';
+
 let corteModel = {
     listado: [],
     secuencialCorte: [],
@@ -15,11 +18,25 @@ let corteModel = {
         }        
         return newSecuencial;
     },
+
+    cargarSecuenciales: function() {
+        corteModel.listado.map(function(corte) {
+            let indice = corteModel.secuencialCorte.findIndex(e => e.letra === corte.letra);
+            let consecutivo = parseInt(corte.consecutivo);
+            if (indice >= 0) {
+                if (corteModel.secuencialCorte[indice].consecutivo < consecutivo) {
+                    corteModel.secuencialCorte[indice].consecutivo = consecutivo;
+                }
+            } else {
+                corteModel.secuencialCorte.push({letra: corte.letra, consecutivo: consecutivo});
+            } 
+        }) 
+    },
     
     cargarListado: function(informeId) {
         m.request({
             method: "GET",
-            url: "http://localhost:8000/api/v1/cortes?informeid=" + informeId,
+            url: api_url + "api/v1/cortes?informeid=" + informeId,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -44,7 +61,7 @@ let corteModel = {
     guardar: (corte) => {
         m.request({
             method: 'POST',
-            url: "http://localhost:8000/api/v1/cortes?informeid=" + corteModel.informeId,
+            url: api_url + "api/v1/cortes?informeid=" + corteModel.informeId,
             body:  corte,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -54,7 +71,7 @@ let corteModel = {
         })
         .then(function(result) {
             corteModel.cargarListado(corteModel.informeId);
-            corteModel.secuencialCorte = '';
+            corteModel.secuencialCorte = [];
         })
         .catch(function(error) {
             corteModel.error = "Se produjo error guardando el corte: " + error.response.message;

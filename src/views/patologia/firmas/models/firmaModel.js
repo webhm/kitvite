@@ -1,3 +1,5 @@
+import m from 'mithril';
+
 let firmaModel = {
     listado: [],
     loading: false,

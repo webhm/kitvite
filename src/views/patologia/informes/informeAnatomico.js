@@ -1,9 +1,8 @@
+import m from 'mithril';
 import informeModel from './models/informeModel';
 import macroscopicoModel from '../plantillaMacroscopico/models/macroscopicoModel';
 import diagnosticoModel from '../plantillaDiagnostico/models/diagnosticoModel';
 import listadoCortes from '../cortes/listadoCortes';
-import Auth from '../../../models/auth';
-import App from '../../app';
 
 let opcionMacroscopico = '';
 let opcionDiag = '';
@@ -15,6 +14,7 @@ const informeAnatomico = {
     oninit: (vnode) => { 
         m.redraw(listadoCortes);
         informeModelo.generarSecuencial(moment().year(), 1);
+        informeModelo.cortes = [];
         if (m.route.param("numeroPedido")) {
             informeModelo.numeroPedido = m.route.param("numeroPedido");
             informeModelo.cargarMuestras(informeModelo.numeroPedido);
@@ -28,10 +28,9 @@ const informeAnatomico = {
         }
         if (m.route.param("medico")) {
             informeModelo.medico = m.route.param("medico");
-        }        
-        App.isAuth();        
-        macroscopicoModel.cargarListado(Auth.user.user);
-        diagnosticoModelo.cargarListado(Auth.user.user);
+        }  
+        macroscopicoModel.cargarListado();
+        diagnosticoModelo.cargarListado();
     },
     view: (vnode) => {
         return m("form#crear-informe", [
@@ -41,26 +40,6 @@ const informeAnatomico = {
                         m("h3.mg-t-5.mg-b-10.tx-center", [
                             m("span", { style: "margin: 0 30px 0 0"}, "ANATÓMICO"),
                         ]),
-                    ]),
-                    m("th.tx-12", {style: { "width": "15%" }}, [
-                        m("button#btnnuevoanatomico.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
-                            style: { "width": "95%" },
-                            onclick: () => {
-                                m.mount(document.querySelector("#crear-informe"),  {
-                                    view: () => {
-                                       return m(informeAnatomico, {
-                                        attrs: {"numeroPedido": informeModelo.numeroPedido, 
-                                                "numeroAtencion": informeModelo.numeroAtencion,
-                                                "numeroHistoriaClinica": informeModelo.numeroHistoriaClinica,
-                                                "medico": informeModelo.medico}
-                                            }
-                                        )
-                                    }
-                                });
-                            }
-                        }, [
-                            m("i.fas.fa-plus.mg-r-5")
-                        ], "Nuevo"),
                     ]),
                 ]),
             ]),  
@@ -97,7 +76,28 @@ const informeAnatomico = {
                         }),
                     ]),                    
                 ]),
-            ]),    
+            ]), 
+            m("table.table", [
+                m("tr", [
+                    m("th.tx-12", {style: {"width": "35%", "color": "#0168fa"}},"SELECCIONAR PLANTILLA MACROSCÓPICA:"),
+                    m("td.tx-12", [
+                        m('select', {
+                            style: {"width": "85%", 'height': '25px' },
+                            onchange: function(e) {
+                                opcionMacroscopico = e.target.value;
+                                let findPlantilla = macroscopicoModelo.listado.find(e => e.nombreplantilla === opcionMacroscopico);
+                                vnode.dom['textareamacroscopico'].value = findPlantilla.resultmacroscopico;
+                                vnode.dom['textareainformacionclinica'].value = findPlantilla.infoclinica;
+                                vnode.dom['textareadiagnostico'].value = findPlantilla.diagnostico;
+                                vnode.dom['textareamicroscopico'].value = findPlantilla.resultmicroscopico;
+                                vnode.dom['textareadgpresuntivo'].value = findPlantilla.dgpresuntivo;
+                            },
+                            value: opcionMacroscopico,
+                          }, macroscopicoModelo.listado.map(x =>m('option', x.nombreplantilla))
+                        ),
+                    ]),
+                ]),  
+            ]), 
             m("table.table", [
                 m("tr", [
                     m("th.tx-12", "INFORMACIÓN CLÍNICA:"),
@@ -145,28 +145,32 @@ const informeAnatomico = {
                         ]
                     ),
                 ]),
-            ]),   
+            ]),  
             m("table.table", [
                 m("tr", [
                     m("th.tx-12", [
                         m("label.tx-12", {
                             style: {"width": "30%"},
                         },
-                        "MACROSCÓPICO:"),
-                        m("label.tx-semibold.tx-12", {
-                            style: {"width": "30%", "color": "#0168fa"},
+                        "DIAGNÓSTICO PRESUNTIVO SIN CÓDIGO:"),
+                    ]),
+                ]),
+                m("tr", [
+                    m("td.tx-12", [
+                        m("textarea.form-control[id='textaredgpresuntivo']", {
+                            style: "min-height: 100px",
+                            rows: 4,
+                        })
+                    ]), 
+                ]),      
+            ]),             
+            m("table.table", [
+                m("tr", [
+                    m("th.tx-12", [
+                        m("label.tx-12", {
+                            style: {"width": "30%"},
                         },
-                        "AGREGAR TEXTO DEFINIDO PREVIAMENTE: "),
-                        m('select', {
-                            style: {"width": "40%", 'height': '25px' },
-                            onchange: function(e) {
-                                opcionMacroscopico = e.target.value;
-                                let findPlantilla = macroscopicoModelo.listado.find(e => e.nombreplantilla === opcionMacroscopico);
-                                vnode.dom['textareamacroscopico'].value = findPlantilla.plantilla;
-                            },
-                            value: opcionMacroscopico,
-                          }, macroscopicoModelo.listado.map(x =>m('option', x.nombreplantilla))
-                        ),
+                        "MACROSCÓPICO:")
                     ]),
                 ]),
                 m("tr", [
@@ -178,7 +182,7 @@ const informeAnatomico = {
                     ]), 
                 ]),      
             ]),
-            m(listadoCortes, {informeModelo: informeModelo}),
+            m(listadoCortes, {"informeModelo": informeModelo}),
             m("table.table", [
                 m("tr", [
                     m("th.tx-12", [
@@ -186,20 +190,6 @@ const informeAnatomico = {
                             style: {"width": "30%"},
                         },
                         "DIAGNÓSTICO:"),
-                        m("label.tx-semibold.tx-12", {
-                            style: {"width": "30%", "color": "#0168fa"},
-                        },
-                        "AGREGAR TEXTO DEFINIDO PREVIAMENTE: "),
-                        m('select', {
-                            style: {"width": "40%", 'height': '25px' },
-                            onchange: function(e) {
-                                opcionDiag = e.target.value;
-                                let findPlantilla = diagnosticoModelo.listado.find(e => e.nombreplantilla === opcionDiag);
-                                vnode.dom['textareadiagnostico'].value = findPlantilla.plantilla;
-                            },
-                            value: opcionDiag,
-                          }, diagnosticoModelo.listado.map(x =>m('option', x.nombreplantilla))
-                        ),
                     ]),
                 ]),
                 m("tr", [        
@@ -213,8 +203,25 @@ const informeAnatomico = {
             ]),
             m("table.table", [
                 m("tr", [
-                    m("th.tx-12", []),                    
-                    m("th.tx-12", { style: "float: right"}, [
+                    m("th.tx-12", [
+                        m("label.tx-12", {
+                            style: {"width": "30%"},
+                        },
+                        "MICROSCÓPICO:"),
+                    ]),
+                ]),
+                m("tr", [        
+                    m("td.tx-12", [
+                        m("textarea.form-control[id='textareamicroscopico']", {
+                            style: "min-height: 100px",
+                            rows: 4,
+                        })
+                    ]),                    
+                ]),
+            ]),
+            m("table.table", [
+                m("tr", [          
+                    m("th.tx-12", { style: {"float": "right", "padding": "7px 0"}}, [
                         m("button#btnguardarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
                             onclick: function() {
                                 let muestrasEnviadas = [];
@@ -224,7 +231,7 @@ const informeAnatomico = {
                                         muestrasEnviadas.push(muestra.id);
                                     }
                                 });  
-                                informeModelo.listadoCortes.filter(function(corte) {
+                                informeModelo.cortes.filter(function(corte) {
                                     cortes.push(corte);
                                 });                                                                                          
                                 if (vnode.dom['textareainformacionclinica'].value.length === 0) {
@@ -267,8 +274,10 @@ const informeAnatomico = {
                                         idtipoinforme: 1,
                                         idestadopedido: 1,                                       
                                         informacionclinica: vnode.dom['textareainformacionclinica'].value,
+                                        dgpresuntivo: vnode.dom['textareadgpresuntivo'].value,
                                         diagnostico: vnode.dom['textareadiagnostico'].value,
                                         macroscopico: vnode.dom['textareamacroscopico'].value,
+                                        resultmicroscopico: vnode.dom['textareamicroscopico'].value,
                                         fechadocumento: fechaDocumento.toLocaleDateString('en-CA'),
                                         codigoinforme: vnode.dom['inputinformeid'].value,
                                         muestrasenviadas: muestrasEnviadas ,
@@ -280,6 +289,14 @@ const informeAnatomico = {
                         }, [
                             m("i.fas.mg-r-5", )], "Guardar"
                         ),
+                    ]),
+                    m("th.tx-12", {style: { "width": "15%" }}, [
+                        m("button#btnsalir.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
+                            style: { "width": "95%" },
+                            onclick: () => {
+                                window.location.reload();
+                            }
+                        }, "Salir"),
                     ]),
                 ]),
             ]),              

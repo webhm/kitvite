@@ -1,3 +1,4 @@
+import m from 'mithril';
 import loader from '../utils/loader';
 import noInfo from '../utils/noInfo';
 import listado from './listado';

@@ -1,4 +1,5 @@
 import m from 'mithril';
+
 const noInfo = {
     view: () => {
         return [

@@ -1,3 +1,4 @@
+import m from 'mithril';
 import cerrarFormulario from '../utils/cerrarFormulario';
 import editarPlantillaMacroscopico from './editarPlantillaMacroscopico';
 import macroscopicoModel from './models/macroscopicoModel';
@@ -15,9 +16,8 @@ const listadoPlantillas = {
             macroscopicoModelo.listado.map(function(macroscopico) {
                 return [
                     m("tr#" + macroscopico.id, [
-                        m("td.tx-12.nombreplantilla", {style: {'width': '20%'}}, macroscopico.nombreplantilla),
-                        m("td.tx-12.plantilla",  {style: {'width': '50%'}}, macroscopico.plantilla),
-                        m("td.tx-12", {style: {'width': '20%'}}, [                            
+                        m("td.tx-12.nombreplantilla", {style: {'width': '70%'}}, macroscopico.nombreplantilla),
+                        m("td.tx-12", {style: {'width': '30%'}}, [                            
                             m("div.mg-0.mg-t-5.text-left", [
                                 m("button.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
                                     onclick: function() {

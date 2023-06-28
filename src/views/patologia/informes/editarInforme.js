@@ -1,3 +1,4 @@
+import m from 'mithril';
 import BreadCrumb from '../../layout/breadcrumb';
 import informeModel from './models/informeModel';
 import editarInformeAnatomico from './editarInformeAnatomico';
@@ -10,6 +11,7 @@ const editarInforme = {
             let listado = vnode.attrs.informeModelo.listado.filter((item) => item.id === parseInt(vnode.attrs.informeId));
             vnode.attrs.informeModelo.listado = listado;
             informeModelo = (vnode.attrs.informeModelo);
+            informeModelo.editing = true;
         } 
     },
     view: () => {
@@ -33,9 +35,8 @@ const editarInforme = {
                                     }
                                 )
                             )),
-                    m("form#crear-informe", [
-                        m(editarInformeAnatomico, {"informeModelo": informeModelo})
-                    ]),
+                    m("form#crear-informe"),
+                    m("form#editar-informe", [m(editarInformeAnatomico, { 'informeModelo': informeModelo })])
                 ]),
             ])
         ]

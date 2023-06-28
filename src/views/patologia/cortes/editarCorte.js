@@ -1,3 +1,4 @@
+import m from 'mithril';
 import corteModel from './models/corteModel';
 
 let corteModelo = corteModel;
@@ -7,10 +8,11 @@ const editarCorte = {
     oninit: (vnode) => {
         if (vnode.attrs.corte !== undefined) {
             corte = vnode.attrs.corte;
+            document.querySelector("#btnnuevocorte").disabled = false;
         }       
     },  
     oncreate: (vnode) => {
-        // vnode.dom['inputcortedescripcion'].focus();
+        vnode.dom['inputcortedescripcion'].focus();
     }, 
     view: (vnode) => {
         return [

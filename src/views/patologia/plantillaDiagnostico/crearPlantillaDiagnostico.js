@@ -6,7 +6,7 @@ import App from '../../app';
 let diagnosticoModelo = diagnosticoModel;
 
 const crearPlantillaDiagnostico = {
-    oninit: () => {
+    oninit: () => { 
         App.isAuth();
     },
     view: (vnode) => {
@@ -26,13 +26,13 @@ const crearPlantillaDiagnostico = {
                             rows: 4,
                         })
                     ]),
-                ]),
+                ]),                               
                 m("tr", [
                     m("td.tx-12"),
                     m("td.tx-12", [
                         m('div#plantilla'),
                         m("button.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
-                            onclick: function () {
+                            onclick: function() { 
                                 if (vnode.dom['inputnombreplantilla'].value.length === 0) {
                                     diagnosticoModelo.error = "El campo Nombre de la Plantilla es requerido";
                                     alert(diagnosticoModelo.error);
@@ -42,7 +42,7 @@ const crearPlantillaDiagnostico = {
                                     alert(diagnosticoModelo.error);
                                     vnode.dom['inputplantilla'].focus();
                                 } else {
-                                    let plantilla = {
+                                    let plantilla = {                                   
                                         nombreplantilla: vnode.dom['inputnombreplantilla'].value,
                                         nombreusuario: Auth.user.user,
                                         plantilla: vnode.dom['inputplantilla'].value,
@@ -52,11 +52,10 @@ const crearPlantillaDiagnostico = {
                                     m.mount(document.querySelector("#cerrar-formulario"), null);
                                     diagnosticoModelo.listado = [];
                                     diagnosticoModelo.loading = true;
-                                }
-                            },
-                            style: { 'margin': '6px 0' }
+                                }},
+                                style: {'margin': '6px 0'}
                         }, [
-                            m("i.fas.fa-save.mg-r-5",)
+                            m("i.fas.fa-save.mg-r-5", )
                         ], "Guardar"
                         ),]
                     ),

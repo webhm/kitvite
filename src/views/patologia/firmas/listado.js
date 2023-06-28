@@ -1,3 +1,4 @@
+import m from 'mithril';
 import firmaModel from './models/firmaModel';
 
 let firmaModelo = firmaModel;
@@ -14,9 +15,7 @@ const listado = {
                 return [
                     m("tr#" + firma.CD_PRESTADOR, [
                         m("th.tx-12.cedulamedico", {style: {'width': '20%'}}, firma.CD_PRESTADOR),
-                        m("td.tx-12.nombremedico", {style: {'width': '60%'}}, firma.NM_PRESTADOR),
-                        m("td.tx-12.firmamedico",  {style: {'width': '20%'}}, 
-                            m("img", { src: "/assets/dashforge/img/firmas/firma1.jpg", width: '100', height: '40' })),
+                        m("td.tx-12.nombremedico", {style: {'width': '60%'}}, firma.NM_PRESTADOR)
                     ]),
                 ]
             }),

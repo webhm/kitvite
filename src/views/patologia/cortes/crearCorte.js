@@ -1,3 +1,4 @@
+import m from 'mithril';
 import corteModel from './models/corteModel';
 
 let corteModelo = corteModel;
@@ -8,6 +9,9 @@ const crearCorte = {
     oninit: (vnode) => {
         if (vnode.attrs.informeModelo !== undefined) {
             informeModelo = vnode.attrs.informeModelo;
+            if (informeModelo.secuencialInforme.length === 0 && informeModelo.listado.length > 0) {
+                informeModelo.secuencialInforme = informeModelo.listado[0].codigoinforme;
+            }
         }
     },  
     oncreate: (vnode) => {
@@ -20,7 +24,7 @@ const crearCorte = {
                 m("input.form-control[id='inputletra'][type='text'][form='crear-corte']", {
                     style: {"text-transform": "uppercase"},
                     onchange: function(event) {
-                        vnode.dom['inputconsecutivo'].value = corteModelo.generarSecuencial(event.target.value);
+                        vnode.dom['inputconsecutivo'].value = corteModelo.generarSecuencial(event.target.value.toUpperCase());
                         vnode.dom['inputcortedescripcion'].focus();
                     },
                     oninput: function(event) {

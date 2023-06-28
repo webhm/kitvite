@@ -1,6 +1,10 @@
+import m from 'mithril';
+import api_url from '../../utils/api_url';
+
 let informeModel = {
     listado: [],
     muestras: [],
+    cortes: [],
     muestrasAsociadas: [],
     error: '',
     secuencialInforme: '',
@@ -11,12 +15,14 @@ let informeModel = {
     medico:'',
     datosPaciente: null,
     loading: false,
+    editing: false,
+    cortesActualizados: false,
         
     cargarListado: function(numeropedidomv) {
         informeModel.loading = true;
         m.request({
             method: "GET",
-            url: "http://localhost:8000/api/v1/informe?nopedidomv=" + numeropedidomv,
+            url: api_url + "api/v1/informe?nopedidomv=" + numeropedidomv,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -38,7 +44,7 @@ let informeModel = {
     cargarMuestras: (numeropedidomv) => {
         m.request({
             method: "GET",
-            url: "http://localhost:8000/api/v1/muestras?nopedidomv=" + numeropedidomv,
+            url: api_url + "api/v1/muestras?nopedidomv=" + numeropedidomv,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -85,7 +91,7 @@ let informeModel = {
     guardar: (informe) => {
         m.request({
             method: 'POST',
-            url: "http://localhost:8000/api/v1/informe",
+            url: api_url + "api/v1/informe",
             body:  informe,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -95,6 +101,7 @@ let informeModel = {
         })
         .then(function(result) {
             informeModel.informecreaddo = result.data;
+            alert("Los cambios han sido guardados correctamente");
         })
         .catch(function(error) {
             informeModel.error = "Se produjo error guardando el Informe: " + error;
@@ -105,7 +112,7 @@ let informeModel = {
     generarSecuencial: function(year, idtipoinforme) {
         m.request({
             method: "GET",
-            url: "http://localhost:8000/api/v1/informe/generarsecuencial/" + year + "/" + idtipoinforme,
+            url: api_url + "api/v1/informe/generarsecuencial/" + year + "/" + idtipoinforme,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -126,7 +133,7 @@ let informeModel = {
     actualizar: (informe) => {
         m.request({
             method: 'PUT',
-            url: "http://localhost:8000/api/v1/informe/" + informe.id + "?nopedidomv=" + informeModel.numeroPedido,
+            url: api_url + "api/v1/informe/" + informe.id + "?nopedidomv=" + informeModel.numeroPedido,
             body:  informe,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -135,7 +142,7 @@ let informeModel = {
             },
         })
         .then(function(result) {
-            informeModel.cargarListado(informeModel.numeroPedido);
+            alert("Los cambios han sido guardados correctamente");
         })
         .catch(function(error) {
             informeModel.error = "Se produjo error guardando el informe: " + error;
@@ -144,9 +151,10 @@ let informeModel = {
     },  
 
     finalizar: (informeId) => {
+        informeModel.loading = true;
         m.request({
-            method: 'PUT',
-            url: "http://localhost:8000/api/v1/informe/" + informeId,
+            method: 'POST',
+            url: api_url + "api/v1/informe/finalizaInforme/" + informeId,
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
                 "Accept": "application/json",
@@ -155,8 +163,11 @@ let informeModel = {
         })
         .then(function(result) {
             informeModel.cargarListado(informeModel.numeroPedido);
+            informeModel.loading = false;
+            alert("El informe ha sido finalizado correctamente");
         })
         .catch(function(error) {
+            informeModel.loading = false;
             informeModel.error = "Se produjo error guardando el informe: " + error;
             alert(informeModel.error);
         }) 

@@ -1,8 +1,8 @@
+import m from 'mithril';
 import SidebarPato from '../utils/sidebarPato';
 import Notificaciones from '../../../models/notificaciones';
 import BreadCrumb from '../../layout/breadcrumb';
 import Stopwatch from "../utils/Stopwatch"
-import m from 'mithril';
 
 const tablePatologiaPedidos = {
     oncreate: () => {

@@ -1,3 +1,4 @@
+import m from 'mithril';
 import BreadCrumb from '../../layout/breadcrumb';
 import informeModel from './models/informeModel';
 import informeAnatomico from './informeAnatomico';
@@ -6,6 +7,7 @@ let informeModelo = informeModel;
 
 const crearInforme = {
     oninit: (vnode) => { 
+        informeModelo.editing = false;
         if (vnode.attrs.numeroPedido !== undefined) {
             informeModelo.numeroPedido = vnode.attrs.numeroPedido;
         } 

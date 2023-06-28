@@ -1,3 +1,4 @@
+import m from 'mithril';
 import corteModel from './models/corteModel';
 import crearCorte from './crearCorte';
 import editarCorte from './editarCorte';
@@ -9,14 +10,15 @@ const listadoCortes = {
     oninit: (vnode) => {
         if (vnode.attrs.informeModelo !== undefined) {
             informeModelo = vnode.attrs.informeModelo;
-            if (informeModelo.listado.length > 0) {
+            if (informeModelo.listado.length > 0 && informeModelo.editing) {
                 corteModelo.listado = informeModelo.listado[0].cortes;
                 corteModelo.informeId = informeModelo.listado[0].id;
+                corteModelo.cargarSecuenciales();
             }
         }
     }, 
     onupdate: (vnode) => {
-        informeModelo.listadoCortes = corteModelo.listado;
+        informeModelo.cortes = corteModelo.listado;
     }, 
     view: (vnode) => {
         return [
@@ -76,6 +78,8 @@ const listadoCortes = {
                                         if (window.confirm('Está seguro que desea borrar el elemento?')) {
                                             let listado = corteModelo.listado.filter((item) => item.id !== parseInt(e.target.getAttribute('corteid')));
                                             corteModelo.listado = listado;
+                                            m.mount(document.querySelector("#gestion-cortes"), null);
+                                            document.querySelector("#btnnuevocorte").disabled = false;
                                         }
                                     },
                                     style: {'margin': '5px 0 5px 0', "width": "47%", 'padding': '5px'}

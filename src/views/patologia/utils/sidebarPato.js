@@ -1,7 +1,6 @@
 import m from 'mithril';
 import Encrypt from '../../../models/encrypt';
 
-
 const MenuSidebar = {
     view: () => {
         let data = Encrypt.getDataUser();
@@ -46,7 +45,7 @@ const MenuSidebar = {
 
         if (_data.length !== 0) {
             return [
-                _data.modulesAccess.patologia.map(function (_v, _i, _contentData) {
+                _data.modulesAccess.patologia.map(function(_v, _i, _contentData) {
                     return [
                         m(m.route.Link, { href: "/" + _v.href, class: ((SidebarPato.page == parseInt(_v.idModulo)) ? "active" : "") }, [
                             _v.label

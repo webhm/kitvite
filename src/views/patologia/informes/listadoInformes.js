@@ -1,3 +1,4 @@
+import m from 'mithril';
 import loader from '../utils/loader';
 import noInfo from '../utils/noInfo';
 import listado from './listado';
@@ -89,9 +90,9 @@ const listadoInformes = {
                 m("thead.thead-light", [
                     m("tr", [
                         m("th.tx-12", {scope: "col", style: {'width': '10%'}}, "ID Informe"),
-                        m("th.tx-12", {scope: "col", style: {'width': '55%'}}, "Muestras Asociadas"),
-                        m("th.tx-12", {scope: "col", style: {'width': '10%'}}, "Estado Informe"),
-                        m("th.tx-12", {scope: "col", style: {'width': '25%'}}, ""),
+                        m("th.tx-12", {scope: "col", style: {'width': '50%'}}, "Muestras Asociadas"),
+                        m("th.tx-12", {scope: "col", style: {'width': '5%'}}, "Estado Informe"),
+                        m("th.tx-12", {scope: "col", style: {'width': '35%'}}, ""),
                     ]),
                 ])
             ]),
