@@ -36,16 +36,7 @@ const informeAnatomico = {
         return m("form#crear-informe", [
             m("table.table", [
                 m("tr", [
-                    m("th.tx-12", {style: { "width": "85%" }}, [
-                        m("h3.mg-t-5.mg-b-10.tx-center", [
-                            m("span", { style: "margin: 0 30px 0 0"}, "ANATÓMICO"),
-                        ]),
-                    ]),
-                ]),
-            ]),  
-            m("table.table", [
-                m("tr", [
-                    m("th.tx-12", "ID P-ANATÓMICO: "),
+                    m("th.tx-12", "N. INFORME "),
                     m("td.tx-12", [
                         m("input.form-control[id='inputinformeid'][type='text']", { 
                             disabled: true,
