@@ -5,7 +5,8 @@ import diagnosticoModel from '../plantillaDiagnostico/models/diagnosticoModel';
 import listadoCortes from '../cortes/listadoCortes';
 
 let opcionMacroscopico = '';
-let opcionDiag = '';
+let opcionTipoInforme = ''; 
+let opcdiagnostiCIE  = '';
 let informeModelo = informeModel;
 let macroscopicoModelo = macroscopicoModel;
 let diagnosticoModelo = diagnosticoModel;
@@ -13,7 +14,7 @@ let diagnosticoModelo = diagnosticoModel;
 const informeAnatomico = {
     oninit: (vnode) => { 
         m.redraw(listadoCortes);
-        informeModelo.generarSecuencial(moment().year(), 1);
+        
         informeModelo.cortes = [];
         if (m.route.param("numeroPedido")) {
             informeModelo.numeroPedido = m.route.param("numeroPedido");
@@ -31,19 +32,46 @@ const informeAnatomico = {
         }  
         macroscopicoModel.cargarListado();
         diagnosticoModelo.cargarListado();
+        informeModelo.gettiposinforme();
+        informeModelo.getdiagCIE();
     },
+    onupdate: (vnode) => {         
+        if (opcionTipoInforme != "empty") {
+             vnode.dom['inputinformeid'].value = informeModelo.secuencialInforme  ;
+        }  
+    }, 
     view: (vnode) => {
         return m("form#crear-informe", [
             m("table.table", [
                 m("tr", [
-                    m("th.tx-12", "N. INFORME "),
+                    m("th.tx-12", {style: {"width": "35px"}} , "TIPO INFORME"),
+                    m("td.tx-12", [
+                        m('select[name=tipoinforme]', {
+                            style: {"width": "85%", 'height': '25px' },
+                            id: "tipoinforme",
+                            onchange: function(e) {
+                                opcionTipoInforme = e.target.value;  
+                                if (opcionTipoInforme == "empty") {
+                                    vnode.dom['inputinformeid'].value = "";
+                                }else {
+                                    informeModelo.generarSecuencial(moment().year(), e.target.value);
+                                }                                
+                            },
+                            //value: "empty",
+                          }, [
+                                m('option', {value: "empty"}, ' -Seleccione- ' ),
+                                informeModelo.tiposinforme.map(x =>m('option', {value: x.id} , x.descripcion)),                                
+                            ]
+                        ),
+                    ]),
+                    m("th.tx-12", {style: {"width": "35px"}} ,"NO. INFORME "),
                     m("td.tx-12", [
                         m("input.form-control[id='inputinformeid'][type='text']", { 
                             disabled: true,
-                            value: informeModelo.secuencialInforme
+                            //value: " Seleccione Tipo Informe "  //informeModelo.secuencialInforme
                         }),
                     ]),
-                    m("th.tx-12", "NO. PEDIDO:"),
+                    m("th.tx-12",{style: {"width": "35px"}} , "NO. PEDIDO:"),
                     m("td.tx-12", [
                         m("input.form-control[id='inputnumeropedidomv'][type='text']", { 
                             value: informeModelo.numeroPedido,
@@ -53,38 +81,69 @@ const informeAnatomico = {
                 ]),
                 m("tr", [
                     m("th.tx-12", "MÉDICO SOLICITANTE:"),
-                    m("td.tx-12", [
-                        m("input.form-control[id='inputmedicosolicitante'][type='text']", {
-                            value: informeModelo.medico,
-                            disabled: true,
-                        }),
-                    ]),
+                    m("td.tx-12",{   style: {"width": "255px"}},
+                        [
+                            m("input.form-control[id='inputmedicosolicitante'][type='text']", {
+                                value: informeModelo.medico,
+                                disabled: true,
+                            }),
+                        ]
+                    ),
                     m("th.tx-12", "FECHA DEL DOCUMENTO:"),
                     m("td.tx-12", [
                         m("input.form-control[id='inputfechadocumento'][type='text']", { 
                             value: moment().format('D-MM-YYYY'),
                             disabled: true,
                         }),
-                    ]),                    
+                    ]),      
+                    m("th.tx-12", "Diagnóstico CIE10:"),
+                    m("td.tx-12", [
+                        m('select[name=tipodiagnostiCIE]', {
+                            style: {"width": "220px", 'height': '25px' },
+                            id: "tipodiagnostiCIE",
+                            onchange: function(e) {
+                                opcdiagnostiCIE = e.target.value;   
+                                informeModelo.diagnostiCIE = e.target.value;
+                            },
+                            //value: "empty",
+                          }, [
+                                m('option', {value: "empty"}, ' -Seleccione- ' ),
+                                informeModelo.tiposdiagnostiCIE.map(x =>m('option', {value: x.id} ,  x.id + ' - ' + x.descripcion)),                                
+                            ]
+                        ),
+                    ]),                            
                 ]),
             ]), 
             m("table.table", [
                 m("tr", [
-                    m("th.tx-12", {style: {"width": "35%", "color": "#0168fa"}},"SELECCIONAR PLANTILLA MACROSCÓPICA:"),
+                    m("th.tx-12", {style: {"width": "35%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
                     m("td.tx-12", [
-                        m('select', {
+                        m('select[name=plantillas]', {
                             style: {"width": "85%", 'height': '25px' },
+                            id: "box",
                             onchange: function(e) {
-                                opcionMacroscopico = e.target.value;
-                                let findPlantilla = macroscopicoModelo.listado.find(e => e.nombreplantilla === opcionMacroscopico);
-                                vnode.dom['textareamacroscopico'].value = findPlantilla.resultmacroscopico;
-                                vnode.dom['textareainformacionclinica'].value = findPlantilla.infoclinica;
-                                vnode.dom['textareadiagnostico'].value = findPlantilla.diagnostico;
-                                vnode.dom['textareamicroscopico'].value = findPlantilla.resultmicroscopico;
-                                vnode.dom['textareadgpresuntivo'].value = findPlantilla.dgpresuntivo;
+                                opcionMacroscopico = e.target.value; 
+                                if (opcionMacroscopico == "empty") {
+                                    vnode.dom['textareamacroscopico'].value = "";
+                                    vnode.dom['textareainformacionclinica'].value = "";
+                                    vnode.dom['textareadiagnostico'].value = "";
+                                    vnode.dom['textareamicroscopico'].value = "";
+                                    vnode.dom['textareadgpresuntivo'].value = "";
+                                }else {
+                                     //let findPlantilla = macroscopicoModelo.listado.find(e => e.nombreplantilla === opcionMacroscopico);
+                                   let findPlantilla = macroscopicoModelo.listado.find(e => e.id == opcionMacroscopico);
+                                    vnode.dom['textareamacroscopico'].value = findPlantilla.resultmacroscopico;
+                                    vnode.dom['textareainformacionclinica'].value = findPlantilla.infoclinica;
+                                    vnode.dom['textareadiagnostico'].value = findPlantilla.diagnostico;
+                                    vnode.dom['textareamicroscopico'].value = findPlantilla.resultmicroscopico;
+                                    vnode.dom['textareadgpresuntivo'].value = findPlantilla.dgpresuntivo;
+                                }                                
                             },
                             value: opcionMacroscopico,
-                          }, macroscopicoModelo.listado.map(x =>m('option', x.nombreplantilla))
+                          }, [
+                                m('option', {value: "empty"}, ' -Seleccione- ' ),
+                                macroscopicoModelo.listado.map(x =>m('option', {value: x.id} , x.nombreplantilla)),                                
+                            ]
                         ),
                     ]),
                 ]),  
@@ -111,7 +170,8 @@ const informeAnatomico = {
                                 if (informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) === -1){
                                     informeModelo.muestrasAsociadas.push({
                                         id: muestra.id,
-                                        checked: false})
+                                        checked: false
+                                    })
                                 }
                                 return [
                                     m("div", [
@@ -129,9 +189,11 @@ const informeAnatomico = {
                                         m("label.tx-semibold.tx-12", {
                                             style: {"margin": "0 10px", "width": "90%"},
                                         },
-                                        muestra.id + " - " + muestra.descripcion),]),
-                                    ]}
-                                ),
+                                        muestra.id + " - " + muestra.descripcion),
+                                    ]),
+                                ]
+                            }
+                            ),
                             ]),
                         ]
                     ),
@@ -148,7 +210,7 @@ const informeAnatomico = {
                 ]),
                 m("tr", [
                     m("td.tx-12", [
-                        m("textarea.form-control[id='textaredgpresuntivo']", {
+                        m("textarea.form-control[id='textareadgpresuntivo']", {
                             style: "min-height: 100px",
                             rows: 4,
                         })
@@ -262,7 +324,7 @@ const informeAnatomico = {
                                         fechapedido: fechaPedido.toLocaleDateString('en-CA'),
                                         secuencial: informeModelo.consecutivo,
                                         year: moment().year(),
-                                        idtipoinforme: 1,
+                                        idtipoinforme: opcionTipoInforme,
                                         idestadopedido: 1,                                       
                                         informacionclinica: vnode.dom['textareainformacionclinica'].value,
                                         dgpresuntivo: vnode.dom['textareadgpresuntivo'].value,
@@ -271,7 +333,8 @@ const informeAnatomico = {
                                         resultmicroscopico: vnode.dom['textareamicroscopico'].value,
                                         fechadocumento: fechaDocumento.toLocaleDateString('en-CA'),
                                         codigoinforme: vnode.dom['inputinformeid'].value,
-                                        muestrasenviadas: muestrasEnviadas ,
+                                        muestrasenviadas: muestrasEnviadas ,                                                                                
+                                        iddiagncie10: opcdiagnostiCIE,
                                         cortes: cortes                            
                                     }
                                     informeModelo.guardar(informe);

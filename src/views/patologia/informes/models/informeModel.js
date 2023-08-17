@@ -1,5 +1,6 @@
 import m from 'mithril';
 import api_url from '../../utils/api_url';
+import listado from '../listado';
 
 let informeModel = {
     listado: [],
@@ -8,6 +9,9 @@ let informeModel = {
     muestrasAsociadas: [],
     error: '',
     secuencialInforme: '',
+    tiposinforme: [],
+    tiposdiagnostiCIE: [],
+    diagnostiCIE: '',
     consecutivo: '',
     numeroPedido: '',
     numeroAtencion: '',
@@ -30,7 +34,7 @@ let informeModel = {
                 "Authorization": localStorage.accessToken,
             },
         })
-        .then(function(result) {
+        .then(function(result) { 
             informeModel.listado = result.data;
             informeModel.loading = false;
         })
@@ -109,6 +113,48 @@ let informeModel = {
         }) 
     },
 
+    gettiposinforme: function() {
+        m.request({
+            method: "GET",
+            url: api_url + "api/v1/informe/getalltipos"  ,
+            //url: api_url + "api/v1/tipoinforme"  ,
+            body: {},
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "Authorization": localStorage.accessToken,
+            },
+        })
+        .then(function(result) {
+            informeModel.tiposinforme =  result;
+        })
+        .catch(function(error) {
+            informeModel.error = error;
+            alert(informeModel.error);
+        })   
+    },  
+
+    getdiagCIE: function() {
+        m.request({
+            method: "GET",
+            url: api_url + "api/v1/informe/getdiagnostiCIE"  ,
+            //url: api_url + "api/v1/tipoinforme"  ,
+            body: {},
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "Authorization": localStorage.accessToken,
+            },
+        })
+        .then(function(result) {
+            informeModel.tiposdiagnostiCIE =  result;
+        })
+        .catch(function(error) {
+            informeModel.error = error;
+            alert(informeModel.error);
+        })   
+    },  
+
     generarSecuencial: function(year, idtipoinforme) {
         m.request({
             method: "GET",
@@ -120,9 +166,9 @@ let informeModel = {
                 "Authorization": localStorage.accessToken,
             },
         })
-        .then(function(result) {
+        .then(function(result) { 
             informeModel.secuencialInforme = result.secuencialinforme;
-            informeModel.consecutivo = result.consecutivo;
+            informeModel.consecutivo = result.consecutivo;     
         })
         .catch(function(error) {
             informeModel.error = error;

@@ -21,7 +21,7 @@ const editarInforme = {
             }, [
                 m(BreadCrumb, [{path: "/", label: "metroplus"}, 
                                 {path: "/patologia", label: "patologia"},
-                                {path: "", label: "nuevo informe"}]),
+                                {path: "", label: "editar informe"}]),
                 m("h1.df-title.mg-t-20.mg-b-10", "Datos del Informe"),
                 m("div.bg-white.bd.pd-20.pd-lg-30.d-flex.flex-column.justify-content-end", [
                         m("h5.tx-right.tx-normal.tx-rubik.tx-color-03.mg-b-0",

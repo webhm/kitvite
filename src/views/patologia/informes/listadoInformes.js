@@ -63,7 +63,7 @@ const listadoInformes = {
         return [
             m("table.table", {style: {'margin': '0'}}, [
                 m("tr", [
-                    m("th.tx-12", {scope: "col", style: {"vertical-align": "middle"}}, "GENERAR NUEVO INFORME"),
+                    /*m("th.tx-12", {scope: "col", style: {"vertical-align": "middle"}}, "GENERAR NUEVO INFORME"),*/
                     m("td", [
                         m("div.float-right", [
                             m("button#btnnuevoinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
@@ -81,7 +81,7 @@ const listadoInformes = {
                                         }
                                     });
                                 }
-                            }, [m("i.fas.mg-r-5")], "ANATÓMICO"),
+                            }, [m("i.fas.mg-r-5")], "GENERAR NUEVO INFORME"),
                         ]),
                     ])
                 ]),
