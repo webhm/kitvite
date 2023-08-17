@@ -54,7 +54,7 @@ const listado = {
                             ]),
                             m("div.mg-0.mg-t-5.text-left.float-left", [
                                 m(m.route.Link, {
-                                    href: "http://172.16.1.122:8080/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FInformeAnatomico&standAlone=true&decorate=no&j_username=jasperadmin&j_password=jasperadmin&InformeId=" + informe.id,
+                                    href: "http://172.16.1.122:8080/jasperserver/flow.html?_flowId=viewReportFlow&_flowId=viewReportFlow&ParentFolderUri=%2Freports&reportUnit=%2Freports%2FInformeAnatomico&standAlone=true&output=pdf&decorate=no&j_username=jasperadmin&j_password=jasperadmin&InformeId=" + informe.id,
                                     class: "btn btn-xs btn-primary mg-l-2 tx-semibold",
                                     target: "_blank"
                                 }, [m('i.fas.fa-print.mg-r-2'), "Imprimir"]),

@@ -335,6 +335,7 @@ const informeAnatomico = {
                                         codigoinforme: vnode.dom['inputinformeid'].value,
                                         muestrasenviadas: muestrasEnviadas ,                                                                                
                                         iddiagncie10: opcdiagnostiCIE,
+                                        DIAGNOSTCIE10: vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text,
                                         cortes: cortes                            
                                     }
                                     informeModelo.guardar(informe);
