@@ -31,6 +31,11 @@ const crearCorte = {
                         if (event.target.value.length > 1) {
                             event.target.value = event.target.value.slice(0, 1);
                         }
+                        else {
+                            if (!isNaN(event.data)) {
+                                event.target.value = "";
+                            }
+                        } 
                     },
                 })
             ]),
