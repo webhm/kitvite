@@ -64,24 +64,26 @@ const informeAnatomico = {
                             ]
                         ),
                     ]),
-                    m("th.tx-12", {style: {"width": "35px"}} ,"NO. INFORME "),
-                    m("td.tx-12", [
+                    m("th.tx-12",{style: {"min-width": "75px"}}  ,"NO. INFORME "),
+                    m("td.tx-12", {style: {"min-width": "105px"}} ,[
                         m("input.form-control[id='inputinformeid'][type='text']", { 
                             disabled: true,
                             //value: " Seleccione Tipo Informe "  //informeModelo.secuencialInforme
                         }),
                     ]),
-                    m("th.tx-12",{style: {"width": "35px"}} , "NO. PEDIDO:"),
-                    m("td.tx-12", [
+                    m("th.tx-12",  {style: {"min-width": "85px"}} , "NO. PEDIDO:"),
+                    m("td.tx-12", {style: {"min-width": "105px"}} ,[
                         m("input.form-control[id='inputnumeropedidomv'][type='text']", { 
                             value: informeModelo.numeroPedido,
                             disabled: true,
                         }),
                     ]),                    
-                ]),
+                ]), 
+            ]), 
+            m("table.table", [ 
                 m("tr", [
                     m("th.tx-12", "MÉDICO SOLICITANTE:"),
-                    m("td.tx-12",{   style: {"width": "255px"}},
+                    m("td.tx-12",{   style: {"width": "46%"}},
                         [
                             m("input.form-control[id='inputmedicosolicitante'][type='text']", {
                                 value: informeModelo.medico,
@@ -90,16 +92,20 @@ const informeAnatomico = {
                         ]
                     ),
                     m("th.tx-12", "FECHA DEL DOCUMENTO:"),
-                    m("td.tx-12", [
+                    m("td.tx-12", {style: {"min-width": "105px"}} ,[
                         m("input.form-control[id='inputfechadocumento'][type='text']", { 
                             value: moment().format('D-MM-YYYY'),
                             disabled: true,
                         }),
-                    ]),      
-                    m("th.tx-12", "Diagnóstico CIE10:"),
+                    ]),                        
+                ]),
+            ]), 
+            m("table.table", [ 
+                m("tr", [     
+                    m("th.tx-12", {style: {"width": "25%"}} , "Diagnóstico CIE10:"),
                     m("td.tx-12", [
                         m('select[name=tipodiagnostiCIE]', {
-                            style: {"width": "220px", 'height': '25px' },
+                            style: {"width": "100%", 'height': '25px' },
                             id: "tipodiagnostiCIE",
                             onchange: function(e) {
                                 opcdiagnostiCIE = e.target.value;   
@@ -116,10 +122,10 @@ const informeAnatomico = {
             ]), 
             m("table.table", [
                 m("tr", [
-                    m("th.tx-12", {style: {"width": "35%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
+                    m("th.tx-12", {style: {"width": "25%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
                     m("td.tx-12", [
                         m('select[name=plantillas]', {
-                            style: {"width": "85%", 'height': '25px' },
+                            style: {"width": "100%", 'height': '25px' },
                             id: "box",
                             onchange: function(e) {
                                 opcionMacroscopico = e.target.value; 
@@ -167,31 +173,34 @@ const informeAnatomico = {
                             style: {"border": "1px solid #c0ccda", "height": "100px", "padding": "5px", "overflow": "auto"}
                         }, [
                             informeModelo.muestras.map(function(muestra) {
-                                if (informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) === -1){
+                                if (informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) === -1 && muestra.valida == '1'){
                                     informeModelo.muestrasAsociadas.push({
                                         id: muestra.id,
                                         checked: false
                                     })
                                 }
-                                return [
-                                    m("div", [
-                                        m("input[type='checkbox']", {
-                                            style: {"float": "left", "margin-top": "2px"},
-                                            class: "muestraenviada", 
-                                            id: muestra.id,
-                                            onclick: function() {
-                                                const index = informeModelo.muestrasAsociadas.map(e => e.id).indexOf(parseInt(this.id));
-                                                if (index != -1 ){
-                                                    informeModelo.muestrasAsociadas[index].checked = this.checked;
+                                if (muestra.valida == '1'){
+                                    return [
+                                        m("div", [
+                                            m("input[type='checkbox']", {
+                                                style: {"float": "left", "margin-top": "2px"},
+                                                class: "muestraenviada", 
+                                                id: muestra.id,
+                                                onclick: function() {
+                                                    const index = informeModelo.muestrasAsociadas.map(e => e.id).indexOf(parseInt(this.id));
+                                                    if (index != -1 ){
+                                                        informeModelo.muestrasAsociadas[index].checked = this.checked;
+                                                    }
                                                 }
-                                            }
-                                        }),
-                                        m("label.tx-semibold.tx-12", {
-                                            style: {"margin": "0 10px", "width": "90%"},
-                                        },
-                                        muestra.id + " - " + muestra.descripcion),
-                                    ]),
-                                ]
+                                            }),
+                                            m("label.tx-semibold.tx-12", {
+                                                style: {"margin": "0 10px", "width": "90%"},
+                                            },
+                                            muestra.id + " - " + muestra.descripcion),
+                                        ]),
+                                    ]
+                                }
+                               
                             }
                             ),
                             ]),

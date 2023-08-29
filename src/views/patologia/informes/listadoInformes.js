@@ -89,15 +89,17 @@ const listadoInformes = {
             m("table.table", {style: {'margin': '0'}}, [
                 m("thead.thead-light", [
                     m("tr", [
+                        m("th.tx-12", {scope: "col", style: {'width': '10%'}}, "Tipo Informe"),
                         m("th.tx-12", {scope: "col", style: {'width': '10%'}}, "ID Informe"),
-                        m("th.tx-12", {scope: "col", style: {'width': '50%'}}, "Muestras Asociadas"),
+                        m("th.tx-12", {scope: "col", style: {'width': '10%'}}, "Fecha Informe"),
+                        m("th.tx-12", {scope: "col", style: {'width': '30%'}}, "Muestras Asociadas"),
                         m("th.tx-12", {scope: "col", style: {'width': '5%'}}, "Estado Informe"),
                         m("th.tx-12", {scope: "col", style: {'width': '35%'}}, ""),
                     ]),
                 ])
             ]),
             m("table.table#listado-informes"),
-            m("div#loader-informes", {style: {'padding-left': '10px'}})
+            m("div#loader-informes", {style: {'padding-left': '0'}})
         ]
     }
 }

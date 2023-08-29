@@ -12,6 +12,7 @@ const editarInforme = {
             vnode.attrs.informeModelo.listado = listado;
             informeModelo = (vnode.attrs.informeModelo);
             informeModelo.editing = true;
+            window.scrollTo(0, 0);
         } 
     },
     view: () => {

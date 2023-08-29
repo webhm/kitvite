@@ -99,40 +99,46 @@ const editarInformeAnatomico = {
                                 ]
                             ),
                         ]),
-                        m("th.tx-12", {style: {"width": "35px"}} ,"NO. INFORME "),
-                        m("td.tx-12", [
-                            m("input.form-control[id='inputinformeid'][type='text']", { 
+                        m("th.tx-12", {style: {"min-width": "75px"}} ,"NO. INFORME "),
+                        m("td.tx-12", {style: {"min-width": "105px"}} , [
+                            m("input.form-control[id='inputinformeid'][type='text']",{ 
                                 disabled: true,
                                 value: informe.codigoinforme
                             }),
                         ]),
-                        m("th.tx-12", "NO. PEDIDO:"),
-                        m("td.tx-12", [
+                        m("th.tx-12", {style: {"min-width": "85px"}} ,"NO. PEDIDO:"),
+                        m("td.tx-12", {style: {"min-width": "105px"}} ,[
                             m("input.form-control[id='inputnumeropedidomv'][type='text']", { 
                                 value: informe.nopedidomv,
                                 disabled: true,
                             }),
                         ]),                    
-                    ]),
+                    ]), 
+                ]),  
+                m("table.table", [ 
                     m("tr", [
                         m("th.tx-12", "MÉDICO SOLICITANTE:"),
-                        m("td.tx-12",{   style: {"width": "255px"}}, [
+                        m("td.tx-12",{   style: {"width": "46%"}}, [
                             m("input.form-control[id='inputmedicosolicitante'][type='text']", {
                                 value: informe.medicosolicitante,
                                 disabled: true,
                             }),
                         ]),
                         m("th.tx-12", "FECHA DEL DOCUMENTO:"),
-                        m("td.tx-12", [
+                        m("td.tx-12", {style: {"min-width": "105px"}} ,[
                             m("input.form-control[id='inputfechadocumento'][type='text']", { 
                                 value: new Date(informe.fechapedido).toLocaleDateString('es-CL'),
                                 disabled: true,
                             }),
-                        ]),      
-                        m("th.tx-12", "Diagnóstico CIE10:"),
+                        ]),     
+                    ]),
+                ]),  
+                m("table.table", [
+                    m("tr", [  
+                        m("th.tx-12", {style: {"width": "25%"}} , "Diagnóstico CIE10:"),
                         m("td.tx-12", [
                             m('select[name=tipodiagnostiCIE]', {
-                                style: {"width": "220px", 'height': '25px' },
+                                style: {"width": "100%", 'height': '25px' },
                                 id: "tipodiagnostiCIE",
                                 onchange: function(e) {
                                     opcdiagnostiCIE = e.target.value;   
@@ -144,32 +150,25 @@ const editarInformeAnatomico = {
                                     informeModelo.tiposdiagnostiCIE.map(x =>m('option', {value: x.id} , x.id + ' - ' + x.descripcion)),                                
                                 ]
                             ),
-                        ]),                    
-                    ]),
-                ]),  
+                        ]),                   
+                    ]),  
+                ]),   
                 m("table.table", [
                     m("tr", [
-                        m("th.tx-12", {style: {"width": "35%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
+                        m("th.tx-12", {style: {"width": "25%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
                         m("td.tx-12", [
                             m('select[name=plantillas]', {
-                                style: {"width": "85%", 'height': '25px' },
+                                style: {"width": "100%", 'height': '25px' },
                                 id: "box",
                                 onchange: function(e) {
-                                    opcionMacroscopico = e.target.value;
-                                    // let findPlantilla = macroscopicoModelo.listado.find(e => e.nombreplantilla === opcionMacroscopico);
-                                    // vnode.dom['textareamacroscopico'].value = findPlantilla.resultmacroscopico;
-                                    // vnode.dom['textareainformacionclinica'].value = findPlantilla.infoclinica;
-                                    // vnode.dom['textareadiagnostico'].value = findPlantilla.diagnostico;
-                                    // vnode.dom['textareamicroscopico'].value = findPlantilla.resultmicroscopico;
-                                    // vnode.dom['textareadgpresuntivo'].value = findPlantilla.dgpresuntivo;
+                                    opcionMacroscopico = e.target.value; 
                                     if (opcionMacroscopico == "empty") {
                                         vnode.dom['textareamacroscopico'].value = "";
                                         vnode.dom['textareainformacionclinica'].value = "";
                                         vnode.dom['textareadiagnostico'].value = "";
                                         vnode.dom['textareamicroscopico'].value = "";
                                         vnode.dom['textareadgpresuntivo'].value = "";
-                                    }else {
-                                        //let findPlantilla = macroscopicoModelo.listado.find(e => e.nombreplantilla === opcionMacroscopico);
+                                    }else { 
                                         let findPlantilla = macroscopicoModelo.listado.find(e => e.id == opcionMacroscopico); 
                                         if (typeof findPlantilla !== "undefined") {
                                             vnode.dom['textareamacroscopico'].value = findPlantilla.resultmacroscopico;

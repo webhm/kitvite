@@ -19,7 +19,8 @@ const crearInforme = {
         }
         if (vnode.attrs.medico !== undefined) {
             muestraModelo.medico = vnode.attrs.medico;
-        }  
+        }          
+        window.scrollTo(0, 0);
     },
     view: () => {
         return [

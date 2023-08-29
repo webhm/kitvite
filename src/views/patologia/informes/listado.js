@@ -15,8 +15,10 @@ const listado = {
             informeModelo.listado.map(function(informe) {
                 return [
                     m("tr#" +  informe.id, [
+                        m("th.tx-12.wd-10p", {scope: "row"}, informe.tipoinforme.descripcion),
                         m("th.tx-12.wd-10p", {scope: "row"}, informe.codigoinforme),
-                        m("th.tx-12.wd-50p", {scope: "row"}, [
+                        m("th.tx-12.wd-10p", {scope: "row"}, new Date(informe.fechadocumento).toLocaleDateString('es-CL')) ,
+                        m("th.tx-12.wd-30p", {scope: "row"}, [
                             informe.muestrasAsociadas.map(function(muestra) {
                                 return m("p", {style: {"margin-bottom": "0"}}, muestra.id + '-' + muestra.descripcion)
                             })
