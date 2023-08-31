@@ -15,12 +15,14 @@ let informeModel = {
     consecutivo: '',
     numeroPedido: '',
     numeroAtencion: '',
+    referenciaInfome: '',
     numeroHistoriaClinica: '', 
     medico:'',
     datosPaciente: null,
     loading: false,
     editing: false,
     cortesActualizados: false,
+    informesReferencia: null,
         
     cargarListado: function(numeropedidomv) {
         informeModel.loading = true;
@@ -127,6 +129,26 @@ let informeModel = {
         })
         .then(function(result) {
             informeModel.tiposinforme =  result;
+        })
+        .catch(function(error) {
+            informeModel.error = error;
+            alert(informeModel.error);
+        })   
+    },  
+
+    getinformesreferenciahc: function(hcpaciente) {
+        m.request({
+            method: "GET",
+            url: api_url + "api/v1/informe/getInformesPreviosPaciente/" + hcpaciente , 
+            body: {},
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "Authorization": localStorage.accessToken,
+            },
+        })
+        .then(function(result) {
+            informeModel.informesReferencia =  result;
         })
         .catch(function(error) {
             informeModel.error = error;

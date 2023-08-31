@@ -9,6 +9,7 @@ let opcionMacroscopico = '';
 let macroscopicoModelo = macroscopicoModel;
 let opcionTipoInforme = '';
 let opcdiagnostiCIE  = '';
+let opcreferenciaInfome  = '';
 let modifMuestras = false;
 
 const editarInformeAnatomico = {
@@ -19,6 +20,8 @@ const editarInformeAnatomico = {
             informeModelo.loading = true;
             informeModelo.secuencialInforme = informe.codigoinforme;
             informeModelo.diagnostiCIE = informe.iddiagncie10;
+            informeModelo.referenciaInfome = informe.referenciaInfome;
+            informeModelo.getinformesreferenciahc(informeModel.numeroHistoriaClinica) ;
             macroscopicoModel.cargarListado(); 
             informeModelo.gettiposinforme();
             informeModelo.getdiagCIE();
@@ -44,6 +47,9 @@ const editarInformeAnatomico = {
         }       
         if (informeModelo.diagnostiCIE != "empty") { 
                 vnode.dom['tipodiagnostiCIE'].value = informeModelo.diagnostiCIE  ;             
+        } 
+        if (informeModelo.referenciaInfome != "empty") { 
+                vnode.dom['informeReferencia'].value = informeModelo.referenciaInfome  ;             
         } 
         if (informeModelo.resultmicroscopico !== undefined) {
             vnode.dom['textareamicroscopico'].value = informeModelo.resultmicroscopico  ;
@@ -153,6 +159,36 @@ const editarInformeAnatomico = {
                         ]),                   
                     ]),  
                 ]),   
+
+
+                m("table.table", [
+                    m("tr", [  
+                        m("th.tx-12", {style: {"width": "25%"}} , "Referencia (Informe):"),
+                        m("td.tx-12", [
+                            m('select[name=informeReferencia]', {
+                                style: {"width": "100%", 'height': '25px' },
+                                id: "informeReferencia",
+                                onchange: function(e) {
+                                    opcreferenciaInfome = e.target.value;   
+                                    informeModelo.referenciaInfome = e.target.value;
+                                },
+                                value: informe.referenciaInfome,
+                              }, [
+                                    m('option', {value: "empty"}, ' -Seleccione- ' ),
+                                    informeModelo.informesReferencia.map(
+                                            x =>m('option', {value: x.id} , 
+                                                'Atención: ' + x.noatencionmv.padStart(12, '- ') 
+                                                + new Date(x.fechadocumento).toLocaleDateString('en-US').padStart(12, '- ')  
+                                                + x.descripcion.padStart(20, '- ') + 
+                                                new String(x.codigoinforme).padStart(15,"- ") 
+                                    )),        
+                                ]
+                            ),
+                        ]),                   
+                    ]),  
+                ]),   
+
+
                 m("table.table", [
                     m("tr", [
                         m("th.tx-12", {style: {"width": "25%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
@@ -396,7 +432,8 @@ const editarInformeAnatomico = {
                                             resultmicroscopico: vnode.dom['textareamicroscopico'].value,
                                             muestrasenviadas: muestrasEnviadas,                                            
                                             idtipoinforme: informeModelo.opcionTipoInforme,                                         
-                                            iddiagncie10: opcdiagnostiCIE,
+                                            iddiagncie10: opcdiagnostiCIE,                                     
+                                            referinforme: opcreferenciaInfome,
                                             DIAGNOSTCIE10: vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text,
                                             cortes: cortes                            
                                         }
