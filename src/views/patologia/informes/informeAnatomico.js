@@ -8,6 +8,7 @@ let opcionMacroscopico = '';
 let opcionDiagnostico = '';
 let opcionTipoInforme = ''; 
 let opcdiagnostiCIE  = '';
+let opcreferenciaInfome  = '';
 let informeModelo = informeModel;
 let macroscopicoModelo = macroscopicoModel;
 let diagnosticoModelo = diagnosticoModel;
@@ -35,6 +36,7 @@ const informeAnatomico = {
         diagnosticoModelo.cargarListado();
         informeModelo.gettiposinforme();
         informeModelo.getdiagCIE();
+        informeModelo.getinformesreferenciahc(informeModel.numeroHistoriaClinica);
     },
     onupdate: (vnode) => {         
         if (opcionTipoInforme != "empty") {
@@ -215,34 +217,9 @@ const informeAnatomico = {
                     ]),
                 ]),
             ]),
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
-                    m("th.tx-12", {style: {"width": "10%"}}, "TIPO INFORME"),
-                    m("td.tx-12", {style: {"width": "15%"}}, [
-                        m('select[name=tipoinforme]', {
-                            style: {"width": "100%", 'height': '25px'},
-                            id: "tipoinforme",
-                            onchange: function(e) {
-                                opcionTipoInforme = e.target.value;  
-                                if (opcionTipoInforme == "empty") {
-                                    vnode.dom['inputinformeid'].value = "";
-                                } else {
-                                    informeModelo.generarSecuencial(moment().year(), e.target.value);
-                                }                                
-                            },
-                          }, [
-                                m('option', {value: "empty"}, ' -Seleccione- ' ),
-                                informeModelo.tiposinforme.map(x =>m('option', {value: x.id} , x.descripcion)),                                
-                            ]
-                        ),
-                    ]),
-                    m("th.tx-12",{style: {"width": "10%"}}  ,"NO. INFORME "),
-                    m("td.tx-12", {style: {"width": "20%"}} ,[
-                        m("input.form-control[id='inputinformeid'][type='text']", { 
-                            disabled: true
-                        }),
-                    ]), 
-                    m("th.tx-12", {style: {"width": "10%"}}, "REFERENCIA"),
+                    m("th.tx-12", {style: {"width": "15%"}}, "TIPO INFORME"),
                     m("td.tx-12", {style: {"width": "35%"}}, [
                         m('select[name=tipoinforme]', {
                             style: {"width": "100%", 'height': '25px'},
@@ -260,10 +237,40 @@ const informeAnatomico = {
                                 informeModelo.tiposinforme.map(x =>m('option', {value: x.id} , x.descripcion)),                                
                             ]
                         ),
-                    ]),                 
+                    ]),
+                    m("th.tx-12",{style: {"width": "15%"}}  ,"NO. INFORME "),
+                    m("td.tx-12", {style: {"width": "35%"}} ,[
+                        m("input.form-control[id='inputinformeid'][type='text']", { 
+                            disabled: true
+                        }),
+                    ]),                
                 ]), 
             ]),
-            m("table.table", [ 
+            m("table.table", {style: {"margin-bottom": "0"}}, [
+                m("tr", [  
+                    m("th.tx-12", {style: {"width": "25%"}} , "Referencia (Informe):"),
+                    m("td.tx-12", [
+                        m('select[name=informeReferencia]', {
+                            style: {"width": "100%", 'height': '25px' },
+                            id: "informeReferencia",
+                            onchange: function(e) {
+                                opcreferenciaInfome = e.target.value;   
+                                informeModelo.referenciaInfome = e.target.value;
+                            },
+                        }, [ m('option', {value: "empty"}, ' -Seleccione- ' ),
+                                informeModelo.informesReferencia.map(
+                                        x =>m('option', {value: x.id} , 
+                                            'Atención: ' + x.noatencionmv.padStart(12, '- ') 
+                                            + new Date(x.fechadocumento).toLocaleDateString('en-US').padStart(12, '- ')  
+                                            + x.descripcion.padStart(20, '- ') + 
+                                            new String(x.codigoinforme).padStart(15,"- ") 
+                                )),        
+                            ]
+                        ),
+                    ]),                   
+                ]),  
+            ]),
+            m("table.table", {style: {"margin-bottom": "0"}}, [ 
                 m("tr", [     
                     m("th.tx-12", {style: {"width": "25%"}} , "Diagnóstico CIE10:"),
                     m("td.tx-12", [
@@ -282,7 +289,7 @@ const informeAnatomico = {
                     ]),                            
                 ]),
             ]), 
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", {style: {"width": "25%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
                     m("td.tx-12", [
@@ -315,7 +322,7 @@ const informeAnatomico = {
                     ]),
                 ]),  
             ]), 
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", "INFORMACIÓN CLÍNICA:"),
                     m("th.tx-12", "MUESTRAS ENVIADAS:"),
@@ -369,7 +376,7 @@ const informeAnatomico = {
                     ),
                 ]),
             ]),  
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", [
                         m("label.tx-12", {
@@ -387,7 +394,7 @@ const informeAnatomico = {
                     ]), 
                 ]),      
             ]),             
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", [
                         m("label.tx-12", {
@@ -406,7 +413,7 @@ const informeAnatomico = {
                 ]),      
             ]),
             m(listadoCortes, {"informeModelo": informeModelo}),
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", [
                         m("label.tx-12", {
@@ -424,7 +431,7 @@ const informeAnatomico = {
                     ]),                    
                 ]),
             ]),
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", {style: {"width": "25%", "color": "#0168fa"}},"PLANTILLA DIAGNÓSTICO:"),
                     m("td.tx-12", [
@@ -449,7 +456,7 @@ const informeAnatomico = {
                     ]),
                 ]),  
             ]), 
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", [
                         m("label.tx-12", {
@@ -467,7 +474,7 @@ const informeAnatomico = {
                     ]),                    
                 ]),
             ]),
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", [
                         m("label.tx-12", {
@@ -485,7 +492,7 @@ const informeAnatomico = {
                     ]),                    
                 ]),
             ]),
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", [
                         m("label.tx-12", {
@@ -503,7 +510,7 @@ const informeAnatomico = {
                     ]),                    
                 ]),
             ]),
-            m("table.table", [
+            m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [          
                     m("th.tx-12", { style: {"float": "right", "padding": "7px 0"}}, [
                         m("button#btnguardarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
