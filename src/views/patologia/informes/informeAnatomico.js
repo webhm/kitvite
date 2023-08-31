@@ -199,7 +199,7 @@ const informeAnatomico = {
                                 },
                                 "Fecha Documento:"
                             ),
-                            m("td[colspan='2']", {
+                            m("td[colspan='8']", {
                                     style: { "background-color": "#eaeff5" }
                                 },                        
                                 m("input.form-control[id='inputfechadocumento'][type='text']", { 
@@ -207,7 +207,8 @@ const informeAnatomico = {
                                     disabled: true,
                                     style: { "background-color": "#eaeff5", 
                                              "border": "0",
-                                             "height": "25px"}
+                                             "height": "25px",
+                                             "padding": "0"}
                                 }),
                             ),
                         ]),
