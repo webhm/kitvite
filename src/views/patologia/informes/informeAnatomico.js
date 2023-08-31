@@ -574,7 +574,8 @@ const informeAnatomico = {
                                         fechadocumento: fechaDocumento.toLocaleDateString('en-CA'),
                                         codigoinforme: vnode.dom['inputinformeid'].value,
                                         muestrasenviadas: muestrasEnviadas ,                                                                                
-                                        iddiagncie10: opcdiagnostiCIE,
+                                        iddiagncie10: opcdiagnostiCIE,                                                                             
+                                        referinforme: opcreferenciaInfome,
                                         DIAGNOSTCIE10: vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text,
                                         cortes: cortes                            
                                     }
