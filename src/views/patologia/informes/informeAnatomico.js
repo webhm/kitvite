@@ -15,13 +15,12 @@ let diagnosticoModelo = diagnosticoModel;
 
 const informeAnatomico = {
     oninit: (vnode) => { 
-        m.redraw(listadoCortes);
-        
+        m.redraw(listadoCortes);        
         informeModelo.cortes = [];
         if (m.route.param("numeroPedido")) {
             informeModelo.numeroPedido = m.route.param("numeroPedido");
-            informeModelo.cargarMuestras(informeModelo.numeroPedido);
             informeModelo.cargarDatosPaciente(informeModelo.numeroPedido);
+            informeModelo.cargarMuestras(informeModelo.numeroPedido);            
         }
         if (m.route.param("numeroAtencion")) {
             informeModelo.numeroAtencion = m.route.param("numeroAtencion");
@@ -32,16 +31,25 @@ const informeAnatomico = {
         if (m.route.param("medico")) {
             informeModelo.medico = m.route.param("medico");
         }  
-        macroscopicoModel.cargarListado();
-        diagnosticoModelo.cargarListado();
         informeModelo.gettiposinforme();
         informeModelo.getdiagCIE();
         informeModelo.getinformesreferenciahc(informeModel.numeroHistoriaClinica);
+        macroscopicoModel.cargarListado();
+        diagnosticoModelo.cargarListado();
     },
     onupdate: (vnode) => {         
         if (opcionTipoInforme != "empty") {
              vnode.dom['inputinformeid'].value = informeModelo.secuencialInforme;
         }  
+        if (informeModelo.guardado) {
+            alert("Los cambios han sido guardados correctamente");
+            vnode.dom['btnsalir'].disabled = false;
+            informeModelo.guardado = false;
+       } else if (!informeModelo.guardado & informeModelo.errorGuardando !== null) {
+            alert(informeModelo.errorGuardando); 
+            vnode.dom['btnsalir'].disabled = false;
+            informeModelo.errorGuardando = '';
+       }
     }, 
     view: (vnode) => {
         return m("form#crear-informe", [
@@ -77,7 +85,7 @@ const informeAnatomico = {
                                     style: { "background-color": "#eaeff5" }
                                 },
                                 informeModelo.datosPaciente != null ? 
-                                informeModelo.datosPaciente.FECHA_PEDIDO + " " + informeModelo.datosPaciente.HORA_PEDIDO  : 
+                                informeModelo.datosPaciente.FECHA_PEDIDO.replaceAll('-', '/') + " " + informeModelo.datosPaciente.HORA_PEDIDO  : 
                                 ""
                             ),
                             m("th", {
@@ -285,7 +293,7 @@ const informeAnatomico = {
                                 informeModelo.informesReferencia.map(
                                         x =>m('option', {value: x.id} , 
                                             'Atención: ' + x.noatencionmv.padStart(12, '- ') 
-                                            + new Date(x.fechadocumento).toLocaleDateString('en-US').padStart(12, '- ')  
+                                            + new Date(x.fechadocumento).toLocaleDateString('en-GB').padStart(12, '- ')  
                                             + x.descripcion.padStart(20, '- ') + 
                                             new String(x.codigoinforme).padStart(15,"- ") 
                                 )) : ""      
@@ -467,12 +475,12 @@ const informeAnatomico = {
                                     vnode.dom['textarearesultado2'].value = "";
                                 } else {
                                     let findPlantilla = diagnosticoModelo.listado.find(e => e.id == opcionDiagnostico);                                    
-                                    vnode.dom['textarearesultado2'].value = findPlantilla.plantilla;
+                                    vnode.dom['textarearesultado2'].value = findPlantilla.nombreplantilla;
                                 }                                
                             },
                           }, [
                                 m('option', {value: "empty"}, ' -Seleccione- ' ),
-                                diagnosticoModelo.listado.map(x =>m('option', {value: x.id} , x.plantilla)),                                
+                                diagnosticoModelo.listado.map(x =>m('option', {value: x.id} , x.nombreplantilla)),                                
                             ]
                         ),
                     ]),
@@ -550,14 +558,15 @@ const informeAnatomico = {
                                 if (vnode.dom['inputinformeid'].value.length === 0) {
                                     informeModelo.error = "El campo Tipo Informe es Requerido";
                                     alert(informeModelo.error);
-                                    vnode.dom['tipoinforme'].focus();
+                                    vnode.dom['tipoinforme '].focus();
                                 } else if (vnode.dom['textareainformacionclinica'].value.length === 0) {
                                     informeModelo.error = "El campo Información Clínica es Requerido";
                                     alert(informeModelo.error);
                                     vnode.dom['textareainformacionclinica'].focus();
-                                } else if (muestrasEnviadas.length === 0) {
+                                } else if (muestrasEnviadas.length ===0) {
                                     informeModelo.error = "Debe asociar al menos una muestra.";
                                     alert(informeModelo.error);
+                                    document.querySelector('.muestraenviada').focus();                     
                                 } else if (vnode.dom['textareamacroscopico'].value.length === 0) {
                                     informeModelo.error = "El campo Macroscópico es Requerido";
                                     alert(informeModelo.error);
@@ -567,7 +576,8 @@ const informeAnatomico = {
                                     alert(informeModelo.error);
                                     vnode.dom['textareadiagnostico'].focus();
                                 } else { 
-                                    this.disabled = true;
+                                    this.style.display = "none";
+                                    vnode.dom['btnsalir'].disabled = true;
                                     let componentesFecha = informeModelo.datosPaciente.FECHA_PEDIDO.split('-');
                                     let fechaPedido = new Date(parseInt(componentesFecha[2]), parseInt(componentesFecha[1] - 1),parseInt(componentesFecha[0]));
                                     componentesFecha = vnode.dom['inputfechadocumento'].value.split('/');

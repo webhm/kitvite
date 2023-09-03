@@ -23,6 +23,8 @@ let informeModel = {
     editing: false,
     cortesActualizados: false,
     informesReferencia: null,
+    guardado: false,
+    errorGuardando: null,
         
     cargarListado: function(numeropedidomv) {
         informeModel.loading = true;
@@ -106,12 +108,12 @@ let informeModel = {
             },
         })
         .then(function(result) {
-            informeModel.informecreaddo = result.data;
-            alert("Los cambios han sido guardados correctamente");
+            informeModel.guardado = true;
+            informeModel.errorGuardando = null;
         })
         .catch(function(error) {
-            informeModel.error = "Se produjo error guardando el Informe: " + error;
-            alert(informeModel.error);
+            informeModel.guardado = false;
+            informeModel.errorGuardando = "Se produjo error guardando el informe: " + error;
         }) 
     },
 
@@ -119,7 +121,6 @@ let informeModel = {
         m.request({
             method: "GET",
             url: api_url + "api/v1/informe/getalltipos"  ,
-            //url: api_url + "api/v1/tipoinforme"  ,
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
@@ -159,8 +160,7 @@ let informeModel = {
     getdiagCIE: function() {
         m.request({
             method: "GET",
-            url: api_url + "api/v1/informe/getdiagnostiCIE"  ,
-            //url: api_url + "api/v1/tipoinforme"  ,
+            url: api_url + "api/v1/informe/getdiagnostiCIE",
             body: {},
             headers: {
                 "Content-Type": "application/json; charset=utf-8",
