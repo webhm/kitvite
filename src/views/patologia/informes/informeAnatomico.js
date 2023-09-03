@@ -64,7 +64,9 @@ const informeAnatomico = {
                             m("td", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.CD_PRE_MED
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.CD_PRE_MED : 
+                                ""
                             ),
                             m("th", {
                                     style: { "background-color": "#a8bed6" }
@@ -74,7 +76,9 @@ const informeAnatomico = {
                             m("td[colspan='2']", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.FECHA_PEDIDO + " " + informeModelo.datosPaciente.HORA_PEDIDO
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.FECHA_PEDIDO + " " + informeModelo.datosPaciente.HORA_PEDIDO  : 
+                                ""
                             ),
                             m("th", {
                                     style: { "background-color": "#a8bed6" }
@@ -84,9 +88,10 @@ const informeAnatomico = {
                             m("td[colspan='3']", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.SECTOR
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.SECTOR : 
+                                ""
                             ),
-
                         ]),
 
                         m("tr", [
@@ -98,7 +103,9 @@ const informeAnatomico = {
                             m("td[colspan='4']", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.medico,
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.medico : 
+                                ""
                             ),
                             m("th", {
                                     style: { "background-color": "#a8bed6" }
@@ -108,7 +115,9 @@ const informeAnatomico = {
                             m("td[colspan='3']", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.ESPECIALIDAD
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.ESPECIALIDAD : 
+                                ""
                             ),
                         ]),
                     ]),                    
@@ -129,7 +138,9 @@ const informeAnatomico = {
                             m("td[colspan='4']", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.NM_PACIENTE
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.NM_PACIENTE : 
+                                ""
                             ),
                             m("th", {
                                     style: { "background-color": "#a8bed6" }
@@ -139,7 +150,9 @@ const informeAnatomico = {
                             m("td", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.EDAD
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.EDAD : 
+                                ""
                             ),
 
                             m("th", {
@@ -150,7 +163,9 @@ const informeAnatomico = {
                             m("td[colspan='2']", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.CD_PACIENTE
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.CD_PACIENTE : 
+                                ""
                             ),
                         ]),
                         m("tr", [
@@ -162,7 +177,9 @@ const informeAnatomico = {
                             m("td", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.AT_MV
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.AT_MV : 
+                                ""
                             ),
                             m("th", {
                                     style: { "background-color": "#a8bed6" }
@@ -172,7 +189,9 @@ const informeAnatomico = {
                             m("td", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.PESO
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.PESO : 
+                                ""
                             ),
                             m("th", {
                                     style: { "background-color": "#a8bed6" }
@@ -182,7 +201,9 @@ const informeAnatomico = {
                             m("td", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.ALTURA
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.ALTURA : 
+                                ""
                             ),
                             m("th", {
                                     style: { "background-color": "#a8bed6" }
@@ -192,7 +213,9 @@ const informeAnatomico = {
                             m("td[colspan='4']", {
                                     style: { "background-color": "#eaeff5" }
                                 },
-                                informeModelo.datosPaciente.SECTOR + " " + informeModelo.datosPaciente.UBICACION
+                                informeModelo.datosPaciente != null ? 
+                                informeModelo.datosPaciente.SECTOR + " " + informeModelo.datosPaciente.UBICACION : 
+                                ""
                             ),
                         ]),
                         m("tr", [
@@ -258,13 +281,14 @@ const informeAnatomico = {
                                 informeModelo.referenciaInfome = e.target.value;
                             },
                         }, [ m('option', {value: "empty"}, ' -Seleccione- ' ),
+                                informeModelo.informesReferencia != null ?
                                 informeModelo.informesReferencia.map(
                                         x =>m('option', {value: x.id} , 
                                             'Atención: ' + x.noatencionmv.padStart(12, '- ') 
                                             + new Date(x.fechadocumento).toLocaleDateString('en-US').padStart(12, '- ')  
                                             + x.descripcion.padStart(20, '- ') + 
                                             new String(x.codigoinforme).padStart(15,"- ") 
-                                )),        
+                                )) : ""      
                             ]
                         ),
                     ]),                   
@@ -313,7 +337,6 @@ const informeAnatomico = {
                                     vnode.dom['textareadgpresuntivo'].value = findPlantilla.dgpresuntivo;
                                 }                                
                             },
-                            value: opcionMacroscopico,
                           }, [
                                 m('option', {value: "empty"}, ' -Seleccione- ' ),
                                 macroscopicoModelo.listado.map(x =>m('option', {value: x.id} , x.nombreplantilla)),                                
@@ -447,10 +470,9 @@ const informeAnatomico = {
                                     vnode.dom['textarearesultado2'].value = findPlantilla.plantilla;
                                 }                                
                             },
-                            value: opcionDiagnostico,
                           }, [
                                 m('option', {value: "empty"}, ' -Seleccione- ' ),
-                                diagnosticoModelo.listado.map(x =>m('option', {value: x.id} , x.nombreplantilla)),                                
+                                diagnosticoModelo.listado.map(x =>m('option', {value: x.id} , x.plantilla)),                                
                             ]
                         ),
                     ]),
@@ -524,8 +546,12 @@ const informeAnatomico = {
                                 });  
                                 informeModelo.cortes.filter(function(corte) {
                                     cortes.push(corte);
-                                });                                                                                          
-                                if (vnode.dom['textareainformacionclinica'].value.length === 0) {
+                                });  
+                                if (vnode.dom['inputinformeid'].value.length === 0) {
+                                    informeModelo.error = "El campo Tipo Informe es Requerido";
+                                    alert(informeModelo.error);
+                                    vnode.dom['tipoinforme'].focus();
+                                } else if (vnode.dom['textareainformacionclinica'].value.length === 0) {
                                     informeModelo.error = "El campo Información Clínica es Requerido";
                                     alert(informeModelo.error);
                                     vnode.dom['textareainformacionclinica'].focus();
