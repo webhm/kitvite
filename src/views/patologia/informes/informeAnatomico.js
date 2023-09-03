@@ -327,7 +327,7 @@ const informeAnatomico = {
                     m("td.tx-12", [
                         m('select[name=plantillas]', {
                             style: {"width": "100%", 'height': '25px' },
-                            id: "box",
+                            id: "plantillaMacro",
                             onchange: function(e) {
                                 opcionMacroscopico = e.target.value; 
                                 if (opcionMacroscopico == "empty") {
@@ -468,7 +468,7 @@ const informeAnatomico = {
                     m("td.tx-12", [
                         m('select[name=plantillaDiagnostico]', {
                             style: {"width": "100%", 'height': '25px' },
-                            id: "box",
+                            id: "plantillaDiag",
                             onchange: function(e) {
                                 opcionDiagnostico = e.target.value; 
                                 if (opcionDiagnostico == "empty") {
