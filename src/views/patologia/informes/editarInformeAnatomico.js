@@ -81,7 +81,6 @@ const editarInformeAnatomico = {
                 vnode.dom['textareamicroscopico'].value = "";
                 vnode.dom['textareadgpresuntivo'].value = "";
             }else {
-                //let findPlantilla = macroscopicoModelo.listado.find(e => e.nombreplantilla === opcionMacroscopico);
                 let findPlantilla = macroscopicoModelo.listado.find(e => e.id == opcionMacroscopico);
                 if (typeof findPlantilla !== "undefined") {
                     vnode.dom['textareamacroscopico'].value = findPlantilla.resultmacroscopico;
@@ -90,10 +89,8 @@ const editarInformeAnatomico = {
                     vnode.dom['textareamicroscopico'].value = findPlantilla.resultmicroscopico;
                     vnode.dom['textareadgpresuntivo'].value = findPlantilla.dgpresuntivo;
                 }
-                
             } 
         } 
-        
         if (opcionDiagnostico != "") {
             if (opcionDiagnostico == "empty") {
                 vnode.dom['textarearesultado2'].value = "";
@@ -102,10 +99,18 @@ const editarInformeAnatomico = {
                 vnode.dom['textarearesultado2'].value = findPlantilla.nombreplantilla;
             }    
         } 
+        if (informeModelo.guardado) {
+            alert("Los cambios han sido guardados correctamente");
+            vnode.dom['btnsalir'].disabled = false;
+            informeModelo.guardado = false;
+       } else if (!informeModelo.guardado & informeModelo.errorGuardando !== null) {
+            alert(informeModelo.errorGuardando); 
+            vnode.dom['btnsalir'].disabled = false;
+            informeModelo.errorGuardando = '';
+       }
     }, 
     view: (vnode) => {
         return [
-            
             m("form#editar-informe", [ 
                 m('div.table-responsive', [
                     m("table.table.table-bordered.table-sm.tx-12", [
@@ -139,7 +144,7 @@ const editarInformeAnatomico = {
                                         style: { "background-color": "#eaeff5" }
                                     },
                                     informeModelo.datosPaciente != null ? 
-                                    informeModelo.datosPaciente.FECHA_PEDIDO + " " + informeModelo.datosPaciente.HORA_PEDIDO  : 
+                                    informeModelo.datosPaciente.FECHA_PEDIDO.replaceAll('-', '/') + " " + informeModelo.datosPaciente.HORA_PEDIDO  : 
                                     ""
                                 ),
                                 m("th", {
@@ -279,6 +284,25 @@ const editarInformeAnatomico = {
                                     informeModelo.datosPaciente.SECTOR + " " + informeModelo.datosPaciente.UBICACION : 
                                     ""
                                 ),
+                            ]),
+                            m("tr", [
+                                m("th", {
+                                        style: { "background-color": "#a8bed6" }
+                                    },
+                                    "Fecha Documento:"
+                                ),
+                                m("td[colspan='8']", {
+                                        style: { "background-color": "#eaeff5" }
+                                    },                        
+                                    m("input.form-control[id='inputfechadocumento'][type='text']", { 
+                                        value: new Date(informe.fechadocumento).toLocaleDateString('en-GB'),
+                                        disabled: true,
+                                        style: { "background-color": "#eaeff5", 
+                                                 "border": "0",
+                                                 "height": "25px",
+                                                 "padding": "0"}
+                                    }),
+                                ),
                             ]), 
                         ]),
                     ]),
@@ -299,7 +323,6 @@ const editarInformeAnatomico = {
                                     }
                                     informeModelo.opcionTipoInforme = opcionTipoInforme;
                                     informeModelo.tipoinforme = opcionTipoInforme;
-                                    vnode.dom['btnguardarinforme'].disabled = false;
                                 },
                                 value: informe.idtipoinforme,
                             }, [
@@ -315,8 +338,7 @@ const editarInformeAnatomico = {
                             }),
                         ]),                   
                     ]), 
-                ]),   
-
+                ]),  
                 m("table.table", {style: {"margin-bottom": "0"}}, [
                     m("tr", [  
                         m("th.tx-12", {style: {"width": "25%"}} , "Referencia (Informe):"),
@@ -343,8 +365,7 @@ const editarInformeAnatomico = {
                             ),
                         ]),                   
                     ]),  
-                ]),   
-
+                ]),
                 m("table.table", {style: {"margin-bottom": "0"}}, [
                     m("tr", [  
                         m("th.tx-12", {style: {"width": "25%"}} , "Diagnóstico CIE10:"),
@@ -364,9 +385,7 @@ const editarInformeAnatomico = {
                             ),
                         ]),                   
                     ]),  
-                ]),   
-
-
+                ]),  
                 m("table.table", {style: {"margin-bottom": "0"}}, [
                     m("tr", [
                         m("th.tx-12", {style: {"width": "25%", "color": "#0168fa"}},"PLANTILLA MACROSCÓPICA:"),
@@ -391,8 +410,7 @@ const editarInformeAnatomico = {
                                             vnode.dom['textareamicroscopico'].value = findPlantilla.resultmicroscopico;
                                             vnode.dom['textareadgpresuntivo'].value = findPlantilla.dgpresuntivo;
                                         }
-                                    } 
-                                    vnode.dom['btnguardarinforme'].disabled = false;
+                                    }
                                 },
                                 value: opcionMacroscopico,
                             }, [
@@ -418,7 +436,6 @@ const editarInformeAnatomico = {
                                 value: informe.informacionclinica,
                                 onchange: function(e) {
                                     informeModelo.informacionclinica = e.target.value;
-                                    vnode.dom['btnguardarinforme'].disabled = false;
                                 }
                             })
                         ]),                    
@@ -489,7 +506,6 @@ const editarInformeAnatomico = {
                                 value: informe.dgpresuntivo,
                                 onchange: function(e) {
                                     informeModelo.dgpresuntivo = e.target.value;
-                                    vnode.dom['btnguardarinforme'].disabled = false;
                                 }
                             })
                         ]), 
@@ -512,13 +528,33 @@ const editarInformeAnatomico = {
                                 value: informe.macroscopico,
                                 onchange: function(e) {
                                     informeModelo.macroscopico = e.target.value;
-                                    vnode.dom['btnguardarinforme'].disabled = false;
                                 }
                             })
                         ]), 
                     ]),      
                 ]),
-                m(listadoCortes, {"informeModelo": informeModelo}),
+                m("table.table", {style: {"margin-bottom": "0"}}, [
+                    m("tr", [
+                        m("th.tx-12", [
+                            m("label.tx-12", {
+                                style: {"width": "30%"},
+                            },
+                            "MICROSCÓPICO:"),
+                        ]),
+                    ]),
+                    m("tr", [        
+                        m("td.tx-12", [
+                            m("textarea.form-control[id='textareamicroscopico']", {
+                                style: "min-height: 100px",
+                                rows: 4,
+                                value: informe.resultmicroscopico,
+                                onchange: function(e) {
+                                    informeModelo.resultmicroscopico = e.target.value;
+                                }
+                            })
+                        ]),                    
+                    ]),
+                ]),
                 m("table.table", {style: {"margin-bottom": "0"}}, [
                     m("tr", [
                         m("th.tx-12", [
@@ -533,6 +569,10 @@ const editarInformeAnatomico = {
                             m("textarea.form-control[id='textareadiagnostico']", {
                                 style: "min-height: 100px",
                                 rows: 4,
+                                value: informe.diagnostico,
+                                onchange: function(e) {
+                                    informeModelo.diagnostico = e.target.value;
+                                }
                             })
                         ]),                    
                     ]),
@@ -578,7 +618,6 @@ const editarInformeAnatomico = {
                                 value: informe.resultado2,
                                 onchange: function(e) {
                                     informeModelo.resultado2 = e.target.value;
-                                    vnode.dom['btnguardarinforme'].disabled = false;
                                 }
                             })
                         ]),                    
@@ -601,41 +640,17 @@ const editarInformeAnatomico = {
                                 value: informe.resultado3,
                                 onchange: function(e) {
                                     informeModelo.resultado3 = e.target.value;
-                                    vnode.dom['btnguardarinforme'].disabled = false;
                                 }
                             })
                         ]),                    
                     ]),
                 ]),
-                m("table.table", {style: {"margin-bottom": "0"}}, [
-                    m("tr", [
-                        m("th.tx-12", [
-                            m("label.tx-12", {
-                                style: {"width": "30%"},
-                            },
-                            "MICROSCÓPICO:"),
-                        ]),
-                    ]),
-                    m("tr", [        
-                        m("td.tx-12", [
-                            m("textarea.form-control[id='textareamicroscopico']", {
-                                style: "min-height: 100px",
-                                rows: 4,
-                                value: informe.resultmicroscopico,
-                                onchange: function(e) {
-                                    informeModelo.resultmicroscopico = e.target.value;
-                                    vnode.dom['btnguardarinforme'].disabled = false;
-                                }
-                            })
-                        ]),                    
-                    ]),
-                ]),
+                m(listadoCortes, {"informeModelo": informeModelo}),
                 m("table.table", {style: {"margin-bottom": "0"}}, [
                     m("tr", [
                         m("th.tx-12", []),                    
                         m("th.tx-12", { style: "float: right", "padding": "7px 0"}, [
                             m("button#btnguardarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
-                                disabled: true,
                                 onclick: function() {
                                     let muestrasEnviadas = [];
                                     let cortes = [];
@@ -670,11 +685,12 @@ const editarInformeAnatomico = {
                                         alert(informeModelo.error);
                                         vnode.dom['textareamacroscopico'].focus();
                                     } else if (vnode.dom['textareadiagnostico'].value.length === 0) {
-                                        informeModelo.error = "El campo Diagnóstico es Requerido";
+                                        informeModelo.error = "El campo Resultado 1 es Requerido";
                                         alert(informeModelo.error);
                                         vnode.dom['textareadiagnostico'].focus();
                                     } else { 
-                                        this.disabled = true;
+                                        this.style.display = "none";
+                                        vnode.dom['btnsalir'].disabled = true;
                                         let informeModificado = { 
                                             id: informe.id,       
                                             year: moment().year(),                    

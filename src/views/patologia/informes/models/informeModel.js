@@ -117,6 +117,27 @@ let informeModel = {
         }) 
     },
 
+    actualizar: (informe) => {
+        m.request({
+            method: 'PUT',
+            url: api_url + "api/v1/informe/" + informe.id + "?nopedidomv=" + informeModel.numeroPedido,
+            body:  informe,
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "Authorization": localStorage.accessToken,
+            },
+        })
+        .then(function(result) {
+            informeModel.guardado = true;
+            informeModel.errorGuardando = null;
+        })
+        .catch(function(error) {
+            informeModel.guardado = false;
+            informeModel.errorGuardando = "Se produjo error guardando el informe: " + error;
+        }) 
+    }, 
+
     gettiposinforme: function() {
         m.request({
             method: "GET",
@@ -196,27 +217,7 @@ let informeModel = {
             informeModel.error = error;
             alert(informeModel.error);
         })   
-    },    
-
-    actualizar: (informe) => {
-        m.request({
-            method: 'PUT',
-            url: api_url + "api/v1/informe/" + informe.id + "?nopedidomv=" + informeModel.numeroPedido,
-            body:  informe,
-            headers: {
-                "Content-Type": "application/json; charset=utf-8",
-                "Accept": "application/json",
-                "Authorization": localStorage.accessToken,
-            },
-        })
-        .then(function(result) {
-            alert("Los cambios han sido guardados correctamente");
-        })
-        .catch(function(error) {
-            informeModel.error = "Se produjo error guardando el informe: " + error;
-            alert(informeModel.error);
-        }) 
-    },  
+    }, 
 
     finalizar: (informeId) => {
         informeModel.loading = true;
