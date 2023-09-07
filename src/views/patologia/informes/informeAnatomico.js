@@ -443,7 +443,24 @@ const informeAnatomico = {
                     ]), 
                 ]),      
             ]),
-            m(listadoCortes, {"informeModelo": informeModelo}),
+            m("table.table", {style: {"margin-bottom": "0"}}, [
+                m("tr", [
+                    m("th.tx-12", [
+                        m("label.tx-12", {
+                            style: {"width": "30%"},
+                        },
+                        "MICROSCÓPICO:"),
+                    ]),
+                ]),
+                m("tr", [        
+                    m("td.tx-12", [
+                        m("textarea.form-control[id='textareamicroscopico']", {
+                            style: "min-height: 100px",
+                            rows: 4,
+                        })
+                    ]),                    
+                ]),
+            ]),
             m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [
                     m("th.tx-12", [
@@ -521,25 +538,8 @@ const informeAnatomico = {
                         })
                     ]),                    
                 ]),
-            ]),
-            m("table.table", {style: {"margin-bottom": "0"}}, [
-                m("tr", [
-                    m("th.tx-12", [
-                        m("label.tx-12", {
-                            style: {"width": "30%"},
-                        },
-                        "MICROSCÓPICO:"),
-                    ]),
-                ]),
-                m("tr", [        
-                    m("td.tx-12", [
-                        m("textarea.form-control[id='textareamicroscopico']", {
-                            style: "min-height: 100px",
-                            rows: 4,
-                        })
-                    ]),                    
-                ]),
-            ]),
+            ]),            
+            m(listadoCortes, {"informeModelo": informeModelo}),
             m("table.table", {style: {"margin-bottom": "0"}}, [
                 m("tr", [          
                     m("th.tx-12", { style: {"float": "right", "padding": "7px 0"}}, [
