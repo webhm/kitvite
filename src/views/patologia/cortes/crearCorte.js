@@ -86,7 +86,7 @@ const crearCorte = {
                     },
                     style: {'margin': '15px 0 0 0', "width": "47%", 'padding': '5px'}
                 }, [
-                    m("i.fas.fa-save.mg-r-5", )
+                    m("i.fas.fa-times.mg-r-5", )
                 ], "Cancelar"),                
             ]),
         ]
