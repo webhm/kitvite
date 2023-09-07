@@ -159,11 +159,13 @@ const tablePatologiaPedidos = {
 const PatologiaPedidos = {
     notificaciones: [],
     pedidos: [],
+    pedidosEstado: [],
     showBitacora: "",
     showPedido: "",
     fechaDesde: "",
     fechaHasta: "",
     searchField: "",
+    pedidosId: [],
     idFiltro: 0,
     loader: false,
     error: "",
@@ -246,6 +248,9 @@ const PatologiaPedidos = {
                     title: "Médico:",
                 },
                 {
+                    title: "Estado:",
+                },
+                {
                     title: "Opciones:",
                 },
             ],
@@ -281,6 +286,14 @@ const PatologiaPedidos = {
                     aTargets: [3],
                     orderable: false,
                 }, {
+                    mRender: function(data, type, full) {
+                        return full.descPrestadorSolicitante;
+
+                    },
+                    visible: true,
+                    aTargets: [4],
+                    orderable: false,
+                },{
                     mRender: function(data, type, full) {
                         return full.descPrestadorSolicitante;
 
@@ -336,6 +349,9 @@ const PatologiaPedidos = {
                             m("td.wd-40p", { "style": {} },
                                 aData.MED_MV
                             ),
+                            m("td.wd-40p", { "style": { "background-color": aData.color} },
+                                aData.estado
+                            ),
                             m("td.tx-center.tx-semibold", {
                                     onclick: () => {
                                         m.route.set("/patologia/pedido/", {
@@ -386,9 +402,38 @@ const PatologiaPedidos = {
             .then(function(result) {
                 PatologiaPedidos.loader = false;
                 PatologiaPedidos.pedidos = result.data;
+                if (result.data.length > 0){
+                    PatologiaPedidos.pedidosId = result.data.map( item => item.CD_PRE_MED);
+                    PatologiaPedidos.fetchEstadosPedidos (PatologiaPedidos.pedidosId);
+                }   
+                
             })
             .catch(function(e) {
                 setTimeout(function() { PatologiaPedidos.fetchPedidos(); }, 2000);
+            });
+    },
+    fetchEstadosPedidos: (jsPedidos) => { 
+        m.request({
+                method: "POST",
+                url: "https://apipatologia.hospitalmetropolitano.org/api/v1/estadopedido/getPedidosEstados",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                body: jsPedidos
+            })
+            .then(function(result) {
+                //PatologiaPedidos.loader = false; 
+                //PatologiaPedidos.pedidosEstado = result.data; 
+                // Merge the JSON arrays based on their positions
+                const mergedJson = PatologiaPedidos.pedidos.map((item1, index) => ({
+                    ...item1,
+                    ...result[index]
+                }));
+                PatologiaPedidos.pedidos = mergedJson;
+                PatologiaPedidos.loadPedidos();
+            })
+            .catch(function(e) {
+                //setTimeout(function() { PatologiaPedidos.fetchPedidos(); }, 2000);
             });
     },
     reloadData: () => {
