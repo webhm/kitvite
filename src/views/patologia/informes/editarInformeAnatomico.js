@@ -427,14 +427,20 @@ const editarInformeAnatomico = {
                                 style: {"border": "1px solid #c0ccda", "height": "100px", "padding": "5px", "overflow": "auto"}
                             }, [
                                     // informeModelo.muestrasAsociadas se inicializa con informeModelo.muestras que tiene TODAS muestras Pedido
-                                    informeModelo.muestras.map(function(muestra) {
+                                    informeModelo.muestras.map(function(muestra) { 
                                         let muestraSeleccDB = (informe.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) != -1)
+                                        if (!muestraSeleccDB && muestra.valida == "0"){  
+                                            return false;
+                                        } 
                                         if (informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) === -1){
+                                            
                                             informeModelo.muestrasAsociadas.push({
                                                 id: muestra.id,
                                                 checked: muestraSeleccDB
                                             })
-                                        }
+                                            
+                                            
+                                        }  
                                         const indexItem = informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id); 
 
                                         return [
