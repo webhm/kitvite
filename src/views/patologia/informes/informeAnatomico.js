@@ -572,7 +572,7 @@ const informeAnatomico = {
                                     alert(informeModelo.error);
                                     vnode.dom['textareamacroscopico'].focus();
                                 } else if (vnode.dom['textareadiagnostico'].value.length === 0) {
-                                    informeModelo.error = "El campo Diagnóstico es Requerido";
+                                    informeModelo.error = "El campo Resultado 1 es Requerido";
                                     alert(informeModelo.error);
                                     vnode.dom['textareadiagnostico'].focus();
                                 } else { 
