@@ -745,7 +745,7 @@ const PedidoPatologia = {
                                                     m("td[colspan='2']", {
                                                             style: { "background-color": "#eaeff5" }
                                                         },
-                                                        PedidoPatologia.data.FECHA_PEDIDO.replaceAll('-', '/') + " " + PedidoPatologia.data.HORA_PEDIDO
+                                                        PedidoPatologia.data.FECHA_PEDIDO != undefined ? PedidoPatologia.data.FECHA_PEDIDO.replaceAll('-', '/') : PedidoPatologia.data.FECHA_PEDIDO + " " + PedidoPatologia.data.HORA_PEDIDO
                                                     ),
                                                     m("th", {
                                                             style: { "background-color": "#a8bed6" }
