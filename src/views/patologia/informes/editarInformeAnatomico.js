@@ -674,21 +674,22 @@ const editarInformeAnatomico = {
                                         informeModelo.error = "El campo Tipo Informe es Requerido";
                                         alert(informeModelo.error);
                                         vnode.dom['tipoinforme'].focus();
-                                    } else if (vnode.dom['textareainformacionclinica'].value.length === 0) {
-                                        informeModelo.error = "El campo Información Clínica es Requerido";
-                                        alert(informeModelo.error);
-                                        vnode.dom['textareainformacionclinica'].focus();
-                                    } else if (muestrasEnviadas.length === 0) {
-                                        informeModelo.error = "Debe asociar al menos una muestra.";
-                                        alert(informeModelo.error);
-                                    } else if (vnode.dom['textareamacroscopico'].value.length === 0) {
-                                        informeModelo.error = "El campo Macroscópico es Requerido";
-                                        alert(informeModelo.error);
-                                        vnode.dom['textareamacroscopico'].focus();
-                                    } else if (vnode.dom['textareadiagnostico'].value.length === 0) {
-                                        informeModelo.error = "El campo Resultado 1 es Requerido";
-                                        alert(informeModelo.error);
-                                        vnode.dom['textareadiagnostico'].focus();
+                                    
+                                    //  }else if (vnode.dom['textareainformacionclinica'].value.length === 0) {
+                                    //     informeModelo.error = "El campo Información Clínica es Requerido";
+                                    //     alert(informeModelo.error);
+                                    //     vnode.dom['textareainformacionclinica'].focus();
+                                    // } else if (muestrasEnviadas.length === 0) {
+                                    //     informeModelo.error = "Debe asociar al menos una muestra.";
+                                    //     alert(informeModelo.error);
+                                    // } else if (vnode.dom['textareamacroscopico'].value.length === 0) {
+                                    //     informeModelo.error = "El campo Macroscópico es Requerido";
+                                    //     alert(informeModelo.error);
+                                    //     vnode.dom['textareamacroscopico'].focus();
+                                    // } else if (vnode.dom['textareadiagnostico'].value.length === 0) {
+                                    //     informeModelo.error = "El campo Resultado 1 es Requerido";
+                                    //     alert(informeModelo.error);
+                                    //     vnode.dom['textareadiagnostico'].focus();
                                     } else { 
                                         this.style.display = "none";
                                         vnode.dom['btnsalir'].disabled = true;
