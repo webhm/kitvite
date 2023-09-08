@@ -16,18 +16,6 @@ const tablePatologiaPedidos = {
         return m("div.row.animated.fadeInUp", {}, [
             m("div.col-12", [
                 m("div.table-content.col-12.pd-r-0.pd-l-0.pd-b-20.", [
-                    m("div.col-sm-12.filemgr-content-header", {
-                        class: (PatologiaPedidos.idFiltro == 1 ? "mg-t-35" : "mg-t-40")
-                    }, [
-                        m("i[data-feather='search']"),
-                        m("div.search-form",
-                            m("input.form-control[type='search'][placeholder='Buscar'][id='searchField']", {
-
-                                oninput: function(e) { PatologiaPedidos.searchField = e.target.value; },
-                                value: PatologiaPedidos.searchField,
-                            })
-                        ),
-                    ]),
                     m("table.table.table-sm.tx-11[id='table-PatologiaPedidos'][width='100%']"),
                 ])
             ])
@@ -228,7 +216,7 @@ const PatologiaPedidos = {
                             m("td.wd-40p", { "style": {} },
                                 aData.MED_MV
                             ),
-                            m("td.wd-40p", { "style": { "background-color": aData.color} },
+                            m("td.tx-center.tx-semibold", { "style": { "background-color": aData.color} },
                                 aData.estado
                             ),
                             m("td.tx-center.tx-semibold", {
