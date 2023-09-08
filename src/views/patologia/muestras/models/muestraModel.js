@@ -11,6 +11,7 @@ let muestraModel = {
     numeroHistoriaClinica: '',
     medico: '',
     loading: false,
+    informesAsociados: 0,
 
     cargarListado: function(numeropedidomv) {
         muestraModel.loading = true;
@@ -26,6 +27,29 @@ let muestraModel = {
         })
         .then(function(result) {
             muestraModel.listado = result.data;
+            muestraModel.loading = false;
+        })
+        .catch(function(error) {
+            muestraModel.loading = false;
+            muestraModel.error = error;
+            alert(muestraModel.error);
+        })
+    },
+
+    getInformesAsoc: function(idmuestra) {
+        muestraModel.loading = true;
+        m.request({
+            method: "GET",  
+            url: api_url + "api/v1/muestras/getInformesAsociados?muestraid=" + idmuestra,
+            body: {},
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "Authorization": localStorage.accessToken,
+            },
+        })
+        .then(function(result) {
+            muestraModel.informesAsociados = result;
             muestraModel.loading = false;
         })
         .catch(function(error) {
