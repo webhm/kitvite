@@ -612,7 +612,7 @@ const informeAnatomico = {
                                         muestrasenviadas: muestrasEnviadas ,                                                                                
                                         iddiagncie10: opcdiagnostiCIE,                                                                             
                                         referinforme: opcreferenciaInfome,
-                                        DIAGNOSTCIE10: vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text,
+                                        DIAGNOSTCIE10: (vnode.dom.tipodiagnostiCIE.selectedOptions.length > 0)? vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text : "",
                                         cortes: cortes                            
                                     }
                                     informeModelo.guardar(informe);
