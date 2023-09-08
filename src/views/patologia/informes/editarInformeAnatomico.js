@@ -106,6 +106,7 @@ const editarInformeAnatomico = {
        } else if (!informeModelo.guardado & informeModelo.errorGuardando !== null) {
             alert(informeModelo.errorGuardando); 
             vnode.dom['btnsalir'].disabled = false;
+            vnode.dom['btnguardarinforme'].disabled = false;
             informeModelo.errorGuardando = '';
        }
     }, 
