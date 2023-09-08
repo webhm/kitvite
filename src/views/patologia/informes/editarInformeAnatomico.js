@@ -701,7 +701,7 @@ const editarInformeAnatomico = {
                                             dgpresuntivo: vnode.dom['textareadgpresuntivo'].value,
                                             resultmicroscopico: vnode.dom['textareamicroscopico'].value,
                                             muestrasenviadas: muestrasEnviadas,                                            
-                                            idtipoinforme: opcionTipoInforme,                                         
+                                            idtipoinforme: (vnode.dom.tipoinforme.selectedOptions.length > 0)? vnode.dom.tipoinforme.selectedOptions[0].value: opcionTipoInforme,                                         
                                             iddiagncie10: opcdiagnostiCIE,                                     
                                             referinforme: opcreferenciaInfome,
                                             DIAGNOSTCIE10: (vnode.dom.tipodiagnostiCIE.selectedOptions.length > 0)? vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text : "",
