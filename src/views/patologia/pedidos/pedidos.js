@@ -16,127 +16,6 @@ const tablePatologiaPedidos = {
         return m("div.row.animated.fadeInUp", {}, [
             m("div.col-12", [
                 m("div.table-content.col-12.pd-r-0.pd-l-0.pd-b-20.", [
-                    m("div.d-flex.align-items-center.justify-content-between.mg-b-80.mg-t-10", [
-                        m("h5.mg-b-0",
-                            "Patología:",
-                            m("span.badge.badge-primary.tx-semibold.pd-l-10.pd-r-10.mg-l-5.tx-15", {
-                                    oncreate: (el) => {
-                                        if (PatologiaPedidos.idFiltro == 1) {
-                                            el.dom.innerHTML = 'Pedidos de Hoy';
-                                        }
-                                        if (PatologiaPedidos.idFiltro == 2) {
-                                            el.dom.innerHTML = 'Pedidos de Emergencia';
-                                        }
-                                        if (PatologiaPedidos.idFiltro == 3) {
-                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
-                                        }
-                                        if (PatologiaPedidos.idFiltro == 4) {
-                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
-                                        }
-                                    },
-                                    onupdate: (el) => {
-                                        if (PatologiaPedidos.idFiltro == 1) {
-                                            el.dom.innerHTML = 'Pedidos de Hoy';
-                                        }
-                                        if (PatologiaPedidos.idFiltro == 2) {
-                                            el.dom.innerHTML = 'Pedidos de Emergencia';
-                                        }
-                                        if (PatologiaPedidos.idFiltro == 3) {
-                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
-                                        }
-                                        if (PatologiaPedidos.idFiltro == 4) {
-                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
-                                        }
-                                    }
-                                }
-                            )
-                        ),
-                        m("div.d-flex.tx-14", [
-                            m('.', {
-                                class: (PatologiaPedidos.idFiltro == 1 ? 'd-none' : 'd-flex')
-                            }, [
-                                m("div.link-03", {
-                                        title: "Desde"
-                                    },
-                                    m(".tx-10.pd-r-0", {
-                                        style: { "padding-top": "10px" }
-                                    }, 'Desde:')
-                                ),
-                                m("div.link-03", {
-                                        style: { "cursor": "pointer" },
-                                        title: "Desde"
-                                    },
-                                    m("input.tx-light.pd-4[type='date'][id='desde']", {
-                                        oncreate: (el) => {
-                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaDesde, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
-                                        },
-                                        onchange: (el) => {
-                                            PatologiaPedidos.fechaDesde = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
-                                            PatologiaPedidos.loader = true;
-                                            PatologiaPedidos.pedidos = [];
-                                            PatologiaPedidos.fetchPedidos();
-                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
-                                        },
-                                        style: {
-                                            "border": "transparent"
-                                        }
-                                    })
-                                ),
-                                m("div.link-03", {
-                                        title: "Hasta"
-                                    },
-                                    m(".tx-10.pd-r-0", {
-                                        style: { "padding-top": "10px" }
-                                    }, 'Hasta:')
-                                ),
-                                m("div.link-03", {
-                                        style: { "cursor": "pointer" },
-                                        title: "Hasta"
-                                    },
-                                    m("input.tx-light.pd-4[type='date'][id='hasta']", {
-                                        oncreate: (el) => {
-                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaHasta, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
-                                        },
-                                        onchange: (el) => {
-                                            PatologiaPedidos.fechaHasta = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
-                                            PatologiaPedidos.loader = true;
-                                            PatologiaPedidos.pedidos = [];
-                                            PatologiaPedidos.fetchPedidos();
-                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
-                                        },
-                                        style: {
-                                            "border": "transparent"
-                                        }
-                                    })
-                                )
-                            ]),
-                            m("div.dropdown.dropleft", [
-                                m("div.link-03.lh-0.mg-l-5[id='dropdownMenuButton'][data-toggle='dropdown'][aria-haspopup='true'][aria-expanded='false']", {
-                                        style: { "cursor": "pointer" },
-                                        title: "Filtrar"
-                                    },
-                                    m("i.fas.fa-filter.tx-18.pd-5")
-                                ),
-                                m(".dropdown-menu.tx-13[aria-labelledby='dropdownMenuButton']", [
-                                    m("h6.dropdown-header.tx-uppercase.tx-12.tx-bold.tx-inverse",
-                                        "FILTROS:"
-                                    ),
-                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=1" }, [
-                                        "Pedidos de Hoy"
-                                    ]),
-                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=2&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
-                                        "Pedidos de Emergencia"
-                                    ]),
-                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=3&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
-                                        "Pedidos de Hospitalización"
-                                    ]),
-                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=4&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
-                                        "Pedidos de C. Externa"
-                                    ]),
-                                ])
-                            ])
-                        ])
-                    ]),
                     m("div.col-sm-12.filemgr-content-header", {
                         class: (PatologiaPedidos.idFiltro == 1 ? "mg-t-35" : "mg-t-40")
                     }, [
@@ -326,7 +205,7 @@ const PatologiaPedidos = {
                                 ))
                             ]),
                             m("td.wd-10p", { "style": {} },
-                                aData.FECHA_PEDIDO + " " + aData.HORA_PEDIDO
+                                aData.FECHA_PEDIDO.replaceAll('-', '/') + " " + aData.HORA_PEDIDO
                             ),
                             m("td.wd-10p", { "style": {} },
                                 m("span.tx-semibold.tx-dark.tx-15.mg-b-1",
@@ -425,9 +304,6 @@ const PatologiaPedidos = {
                 body: jsPedidos
             })
             .then(function(result) {
-                //PatologiaPedidos.loader = false; 
-                //PatologiaPedidos.pedidosEstado = result.data; 
-                // Merge the JSON arrays based on their positions
                 const mergedJson = PatologiaPedidos.pedidos.map((item1, index) => ({
                     ...item1,
                     ...result[index]
@@ -457,93 +333,41 @@ const PatologiaPedidos = {
                     m("h1.df-title.mg-t-20.mg-b-10",
                         "Pedidos Ingresados:"
                     ),
-                    m("div.row.animated.fadeInUp", [
-                        m("div.col-12", [
-                            m("div.table-loader.wd-100p", [
-                                    m("div.placeholder-paragraph", [
-                                        m("div.line"),
-                                        m("div.line")
-                                    ])
-                                ]
-                            ),
-                        ])
-                    ]),
-                ])
-            ),
-        ] : PatologiaPedidos.error.length !== 0 ? [
-            m(SidebarPato, { oncreate: SidebarPato.setPage(26) }),
-            m("div.content.content-components",
-                m("div.container.mg-l-0.mg-r-0", {
-                    style: { "max-width": "100%" }
-                }, [
-                    m(BreadCrumb, [{path: "/", label: "metroplus"}, 
-                                   {path: "/patologia", label: "patologia"},
-                                   {path: "", label: "pedidos ingresados"}]),
-                    m("h1.df-title.mg-t-20.mg-b-10",
-                        "Pedidos Ingresados:"
-                    ),
-                    m("div.row.animated.fadeInUp", [
-                        m('p', 'No existe información.')
-                    ]),
-                ])
-            ),
-        ] : !PatologiaPedidos.loader && PatologiaPedidos.pedidos.length !== 0 ? [
-            m(SidebarPato, { oncreate: SidebarPato.setPage(26) }),
-            m("div.content.content-components",
-                m("div.container.mg-l-0.mg-r-0", {
-                    style: { "max-width": "100%" }
-                }, [
-                    m(BreadCrumb, [{path: "/", label: "metroplus"}, 
-                                   {path: "/patologia", label: "patologia"},
-                                   {path: "", label: "pedidos ingresados"}]),
-                    m("h1.df-title.mg-t-20.mg-b-10",
-                        "Pedidos Ingresados:"
-                    ),
-                    m(tablePatologiaPedidos)
-                ])
-            ),
-            m("div.section-nav", [
-                m("label.nav-label",
-                    "Pedidos Ingresados"
-                ),
-                m("div.mg-t-10.bg-white", {},
-                    m("div.mg-t-10.bg-white",
-                        m("div.card-header.pd-t-20.pd-b-0.bd-b-0", [
-                            m("h6.lh-5.mg-b-5",
-                                "Pedidos Ingresados:"
-                            ),
-                        ]),
-                        m("div.card-body.pd-0", [
-                            m("div.pd-t-10.pd-b-0.pd-x-20.d-flex.align-items-baseline", [
-                                m("h1.tx-normal.tx-rubik.mg-b-0.mg-r-5",
-                                    PatologiaPedidos.pedidos.length
-                                ),
-                                m("div.tx-18", [
-                                    m("divv.lh-0.tx-gray-300", 'Pedido(s)')
-                                ])
-                            ]),
-                        ])
-                    ),
-                    m("div.pd-20",
-                        m(Stopwatch)
-                    )
-                ),
-            ])
-        ] : !PatologiaPedidos.loader && PatologiaPedidos.pedidos.length == 0 ? [
-            m(SidebarPato, { oncreate: SidebarPato.setPage(26) }),
-            m("div.content.content-components",
-                m("div.container.mg-l-0.mg-r-0", {
-                    style: { "max-width": "100%" }
-                }, [
-                    m(BreadCrumb, [{path: "/", label: "metroplus"}, 
-                                   {path: "/patologia", label: "patologia"},
-                                   {path: "", label: "pedidos ingresados"}]),
-                    m("h1.df-title.mg-t-20.mg-b-10",
-                        "Pedidos Ingresados:"
-                    ),
-                    m('div', {
-                        style: {'width': '100%', 'height': '20px', 'margin-bottom': '20px'}
-                    }, [
+                    m("div.d-flex.align-items-center.justify-content-between.mg-b-80.mg-t-10", [
+                        m("h5.mg-b-0",
+                            "Patología:",
+                            m("span.badge.badge-primary.tx-semibold.pd-l-10.pd-r-10.mg-l-5.tx-15", {
+                                    oncreate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    },
+                                    onupdate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    }
+                                }
+                            )
+                        ),
                         m("div.d-flex.tx-14", [
                             m('.', {
                                 class: (PatologiaPedidos.idFiltro == 1 ? 'd-none' : 'd-flex')
@@ -628,8 +452,455 @@ const PatologiaPedidos = {
                                     ]),
                                 ])
                             ])
-                        ])]
+                        ])
+                    ]),
+                    m("div.row.animated.fadeInUp", [
+                        m("div.col-12", [
+                            m("div.table-loader.wd-100p", [
+                                    m("div.placeholder-paragraph", [
+                                        m("div.line"),
+                                        m("div.line")
+                                    ])
+                                ]
+                            ),
+                        ])
+                    ]),
+                ])
+            ),
+        ] : PatologiaPedidos.error.length !== 0 ? [
+            m(SidebarPato, { oncreate: SidebarPato.setPage(26) }),
+            m("div.content.content-components",
+                m("div.container.mg-l-0.mg-r-0", {
+                    style: { "max-width": "100%" }
+                }, [
+                    m(BreadCrumb, [{path: "/", label: "metroplus"}, 
+                                   {path: "/patologia", label: "patologia"},
+                                   {path: "", label: "pedidos ingresados"}]),
+                    m("h1.df-title.mg-t-20.mg-b-10",
+                        "Pedidos Ingresados:"
                     ),
+                    m("div.d-flex.align-items-center.justify-content-between.mg-b-80.mg-t-10", [
+                        m("h5.mg-b-0",
+                            "Patología:",
+                            m("span.badge.badge-primary.tx-semibold.pd-l-10.pd-r-10.mg-l-5.tx-15", {
+                                    oncreate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    },
+                                    onupdate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    }
+                                }
+                            )
+                        ),
+                        m("div.d-flex.tx-14", [
+                            m('.', {
+                                class: (PatologiaPedidos.idFiltro == 1 ? 'd-none' : 'd-flex')
+                            }, [
+                                m("div.link-03", {
+                                        title: "Desde"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Desde:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Desde"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='desde']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaDesde, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaDesde = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                ),
+                                m("div.link-03", {
+                                        title: "Hasta"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Hasta:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Hasta"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='hasta']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaHasta, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaHasta = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                )
+                            ]),
+                            m("div.dropdown.dropleft", [
+                                m("div.link-03.lh-0.mg-l-5[id='dropdownMenuButton'][data-toggle='dropdown'][aria-haspopup='true'][aria-expanded='false']", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Filtrar"
+                                    },
+                                    m("i.fas.fa-filter.tx-18.pd-5")
+                                ),
+                                m(".dropdown-menu.tx-13[aria-labelledby='dropdownMenuButton']", [
+                                    m("h6.dropdown-header.tx-uppercase.tx-12.tx-bold.tx-inverse",
+                                        "FILTROS:"
+                                    ),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=1" }, [
+                                        "Pedidos de Hoy"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=2&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Emergencia"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=3&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Hospitalización"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=4&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de C. Externa"
+                                    ]),
+                                ])
+                            ])
+                        ])
+                    ]),
+                    m("div.row.animated.fadeInUp", [
+                        m('p', 'No existe información.')
+                    ]),
+                ])
+            ),
+        ] : !PatologiaPedidos.loader && PatologiaPedidos.pedidos.length !== 0 ? [
+            m(SidebarPato, { oncreate: SidebarPato.setPage(26) }),
+            m("div.content.content-components",
+                m("div.container.mg-l-0.mg-r-0", {
+                    style: { "max-width": "100%" }
+                }, [
+                    m(BreadCrumb, [{path: "/", label: "metroplus"}, 
+                                   {path: "/patologia", label: "patologia"},
+                                   {path: "", label: "pedidos ingresados"}]),
+                    m("h1.df-title.mg-t-20.mg-b-10",
+                        "Pedidos Ingresados:"
+                    ),
+                    m("div.d-flex.align-items-center.justify-content-between.mg-b-80.mg-t-10", [
+                        m("h5.mg-b-0",
+                            "Patología:",
+                            m("span.badge.badge-primary.tx-semibold.pd-l-10.pd-r-10.mg-l-5.tx-15", {
+                                    oncreate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    },
+                                    onupdate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    }
+                                }
+                            )
+                        ),
+                        m("div.d-flex.tx-14", [
+                            m('.', {
+                                class: (PatologiaPedidos.idFiltro == 1 ? 'd-none' : 'd-flex')
+                            }, [
+                                m("div.link-03", {
+                                        title: "Desde"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Desde:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Desde"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='desde']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaDesde, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaDesde = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                ),
+                                m("div.link-03", {
+                                        title: "Hasta"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Hasta:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Hasta"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='hasta']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaHasta, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaHasta = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                )
+                            ]),
+                            m("div.dropdown.dropleft", [
+                                m("div.link-03.lh-0.mg-l-5[id='dropdownMenuButton'][data-toggle='dropdown'][aria-haspopup='true'][aria-expanded='false']", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Filtrar"
+                                    },
+                                    m("i.fas.fa-filter.tx-18.pd-5")
+                                ),
+                                m(".dropdown-menu.tx-13[aria-labelledby='dropdownMenuButton']", [
+                                    m("h6.dropdown-header.tx-uppercase.tx-12.tx-bold.tx-inverse",
+                                        "FILTROS:"
+                                    ),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=1" }, [
+                                        "Pedidos de Hoy"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=2&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Emergencia"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=3&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Hospitalización"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=4&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de C. Externa"
+                                    ]),
+                                ])
+                            ])
+                        ])
+                    ]),
+                    m(tablePatologiaPedidos)
+                ])
+            ),
+            m("div.section-nav", [
+                m("label.nav-label",
+                    "Pedidos Ingresados"
+                ),
+                m("div.mg-t-10.bg-white", {},
+                    m("div.mg-t-10.bg-white",
+                        m("div.card-header.pd-t-20.pd-b-0.bd-b-0", [
+                            m("h6.lh-5.mg-b-5",
+                                "Pedidos Ingresados:"
+                            ),
+                        ]),
+                        m("div.card-body.pd-0", [
+                            m("div.pd-t-10.pd-b-0.pd-x-20.d-flex.align-items-baseline", [
+                                m("h1.tx-normal.tx-rubik.mg-b-0.mg-r-5",
+                                    PatologiaPedidos.pedidos.length
+                                ),
+                                m("div.tx-18", [
+                                    m("divv.lh-0.tx-gray-300", 'Pedido(s)')
+                                ])
+                            ]),
+                        ])
+                    ),
+                    m("div.pd-20",
+                        m(Stopwatch)
+                    )
+                ),
+            ])
+        ] : !PatologiaPedidos.loader && PatologiaPedidos.pedidos.length == 0 ? [
+            m(SidebarPato, { oncreate: SidebarPato.setPage(26) }),
+            m("div.content.content-components",
+                m("div.container.mg-l-0.mg-r-0", {
+                    style: { "max-width": "100%" }
+                }, [
+                    m(BreadCrumb, [{path: "/", label: "metroplus"}, 
+                                   {path: "/patologia", label: "patologia"},
+                                   {path: "", label: "pedidos ingresados"}]),
+                    m("h1.df-title.mg-t-20.mg-b-10",
+                        "Pedidos Ingresados:"
+                    ),
+                    m("div.d-flex.align-items-center.justify-content-between.mg-b-80.mg-t-10", [
+                        m("h5.mg-b-0",
+                            "Patología:",
+                            m("span.badge.badge-primary.tx-semibold.pd-l-10.pd-r-10.mg-l-5.tx-15", {
+                                    oncreate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    },
+                                    onupdate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    }
+                                }
+                            )
+                        ),
+                        m("div.d-flex.tx-14", [
+                            m('.', {
+                                class: (PatologiaPedidos.idFiltro == 1 ? 'd-none' : 'd-flex')
+                            }, [
+                                m("div.link-03", {
+                                        title: "Desde"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Desde:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Desde"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='desde']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaDesde, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaDesde = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                ),
+                                m("div.link-03", {
+                                        title: "Hasta"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Hasta:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Hasta"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='hasta']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaHasta, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaHasta = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                )
+                            ]),
+                            m("div.dropdown.dropleft", [
+                                m("div.link-03.lh-0.mg-l-5[id='dropdownMenuButton'][data-toggle='dropdown'][aria-haspopup='true'][aria-expanded='false']", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Filtrar"
+                                    },
+                                    m("i.fas.fa-filter.tx-18.pd-5")
+                                ),
+                                m(".dropdown-menu.tx-13[aria-labelledby='dropdownMenuButton']", [
+                                    m("h6.dropdown-header.tx-uppercase.tx-12.tx-bold.tx-inverse",
+                                        "FILTROS:"
+                                    ),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=1" }, [
+                                        "Pedidos de Hoy"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=2&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Emergencia"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=3&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Hospitalización"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=4&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de C. Externa"
+                                    ]),
+                                ])
+                            ])
+                        ])
+                    ]),
                     m("div.row.animated.fadeInUp", [
                         m("div.col-12", [
                             m(".alert.alert-danger[role='alert']",
@@ -651,6 +922,127 @@ const PatologiaPedidos = {
                     m("h1.df-title.mg-t-20.mg-b-10",
                         "Pedidos Ingresados:"
                     ),
+                    m("div.d-flex.align-items-center.justify-content-between.mg-b-80.mg-t-10", [
+                        m("h5.mg-b-0",
+                            "Patología:",
+                            m("span.badge.badge-primary.tx-semibold.pd-l-10.pd-r-10.mg-l-5.tx-15", {
+                                    oncreate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    },
+                                    onupdate: (el) => {
+                                        if (PatologiaPedidos.idFiltro == 1) {
+                                            el.dom.innerHTML = 'Pedidos de Hoy';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 2) {
+                                            el.dom.innerHTML = 'Pedidos de Emergencia';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 3) {
+                                            el.dom.innerHTML = 'Pedidos de Hospitalización ';
+                                        }
+                                        if (PatologiaPedidos.idFiltro == 4) {
+                                            el.dom.innerHTML = 'Pedidos de C. Externa ';
+                                        }
+                                    }
+                                }
+                            )
+                        ),
+                        m("div.d-flex.tx-14", [
+                            m('.', {
+                                class: (PatologiaPedidos.idFiltro == 1 ? 'd-none' : 'd-flex')
+                            }, [
+                                m("div.link-03", {
+                                        title: "Desde"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Desde:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Desde"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='desde']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaDesde, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaDesde = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                ),
+                                m("div.link-03", {
+                                        title: "Hasta"
+                                    },
+                                    m(".tx-10.pd-r-0", {
+                                        style: { "padding-top": "10px" }
+                                    }, 'Hasta:')
+                                ),
+                                m("div.link-03", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Hasta"
+                                    },
+                                    m("input.tx-light.pd-4[type='date'][id='hasta']", {
+                                        oncreate: (el) => {
+                                            el.dom.value = (PatologiaPedidos.idFiltro !== 1 ? moment(moment(PatologiaPedidos.fechaHasta, 'DD-MM-YYYY')).format('YYYY-MM-DD') : '');
+                                        },
+                                        onchange: (el) => {
+                                            PatologiaPedidos.fechaHasta = moment(moment(el.target.value, 'YYYY-MM-DD')).format('DD-MM-YYYY');
+                                            PatologiaPedidos.loader = true;
+                                            PatologiaPedidos.pedidos = [];
+                                            PatologiaPedidos.fetchPedidos();
+                                            m.route.set("/patologia/pedidos?idFiltro=" + PatologiaPedidos.idFiltro + "&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta);
+                                        },
+                                        style: {
+                                            "border": "transparent"
+                                        }
+                                    })
+                                )
+                            ]),
+                            m("div.dropdown.dropleft", [
+                                m("div.link-03.lh-0.mg-l-5[id='dropdownMenuButton'][data-toggle='dropdown'][aria-haspopup='true'][aria-expanded='false']", {
+                                        style: { "cursor": "pointer" },
+                                        title: "Filtrar"
+                                    },
+                                    m("i.fas.fa-filter.tx-18.pd-5")
+                                ),
+                                m(".dropdown-menu.tx-13[aria-labelledby='dropdownMenuButton']", [
+                                    m("h6.dropdown-header.tx-uppercase.tx-12.tx-bold.tx-inverse",
+                                        "FILTROS:"
+                                    ),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=1" }, [
+                                        "Pedidos de Hoy"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=2&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Emergencia"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=3&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de Hospitalización"
+                                    ]),
+                                    m(m.route.Link, { class: 'dropdown-item', href: "/patologia/pedidos/?idFiltro=4&fechaDesde=" + PatologiaPedidos.fechaDesde + "&fechaHasta=" + PatologiaPedidos.fechaHasta }, [
+                                        "Pedidos de C. Externa"
+                                    ]),
+                                ])
+                            ])
+                        ])
+                    ]),
                     m("div.row.animated.fadeInUp", [
                         m("div.col-12", [
                             m("p", " Error interno."),
