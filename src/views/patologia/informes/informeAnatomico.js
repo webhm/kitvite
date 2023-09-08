@@ -43,14 +43,15 @@ const informeAnatomico = {
         }  
         if (informeModelo.guardado) {
             alert("Los cambios han sido guardados correctamente");
+            vnode.dom['btnguardarinforme'].disabled = false;
             vnode.dom['btnsalir'].disabled = false;
             informeModelo.guardado = false;
        } else if (!informeModelo.guardado & informeModelo.errorGuardando !== null) {
             alert(informeModelo.errorGuardando); 
-            vnode.dom['btnsalir'].disabled = false;
             vnode.dom['btnguardarinforme'].disabled = false;
+            vnode.dom['btnsalir'].disabled = false;
             informeModelo.errorGuardando = '';
-       }
+       } 
     }, 
     view: (vnode) => {
         return m("form#crear-informe", [
@@ -559,25 +560,9 @@ const informeAnatomico = {
                                 if (vnode.dom['inputinformeid'].value.length === 0) {
                                     informeModelo.error = "El campo Tipo Informe es Requerido";
                                     alert(informeModelo.error);
-                                    vnode.dom['tipoinforme '].focus(); 
-                                // } else if (vnode.dom['textareainformacionclinica'].value.length === 0) {
-                                //     informeModelo.error = "El campo Información Clínica es Requerido";
-                                //     alert(informeModelo.error);
-                                //     vnode.dom['textareainformacionclinica'].focus();
-                                // } else if (muestrasEnviadas.length ===0) {
-                                //     informeModelo.error = "Debe asociar al menos una muestra.";
-                                //     alert(informeModelo.error);
-                                //     document.querySelector('.muestraenviada').focus();                     
-                                // } else if (vnode.dom['textareamacroscopico'].value.length === 0) {
-                                //     informeModelo.error = "El campo Macroscópico es Requerido";
-                                //     alert(informeModelo.error);
-                                //     vnode.dom['textareamacroscopico'].focus();
-                                // } else if (vnode.dom['textareadiagnostico'].value.length === 0) {
-                                //     informeModelo.error = "El campo Resultado 1 es Requerido";
-                                //     alert(informeModelo.error);
-                                //     vnode.dom['textareadiagnostico'].focus();
+                                    vnode.dom['tipoinforme '].focus();
                                 } else { 
-                                    this.style.display = "none";
+                                    this.disabled = true;
                                     vnode.dom['btnsalir'].disabled = true;
                                     let componentesFecha = informeModelo.datosPaciente.FECHA_PEDIDO.split('-');
                                     let fechaPedido = new Date(parseInt(componentesFecha[2]), parseInt(componentesFecha[1] - 1),parseInt(componentesFecha[0]));

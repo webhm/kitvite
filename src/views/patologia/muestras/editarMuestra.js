@@ -51,7 +51,7 @@ const editarMuestra = {
                 ]),                                                                                                  
                 m("tr", [
                     (muestraModelo.informesAsociados > 0 && muestra.valida=="1")?  
-                            m("th.tx-12", {style: {'width': '30%'} } , "La muestra es válida, no se puede invalidar porque está asociada con "+muestraModelo.informesAsociados + " Informes" ) : 
+                            m("th.tx-12", {style: {'width': '30%', 'color': '#EA4335'}} , "La muestra no se puede cambiar a NO VÁLIDA porque está asociada con " + muestraModelo.informesAsociados + " Informe(s)") : 
                             m(muestraValida, {muestra: muestra}),                  
                     m("td.tx-12", [
                         m('div#observacionesnovalida'), 

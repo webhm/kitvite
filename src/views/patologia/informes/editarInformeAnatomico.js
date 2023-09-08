@@ -101,12 +101,13 @@ const editarInformeAnatomico = {
         } 
         if (informeModelo.guardado) {
             alert("Los cambios han sido guardados correctamente");
+            vnode.dom['btnguardarinforme'].disabled = false;
             vnode.dom['btnsalir'].disabled = false;
             informeModelo.guardado = false;
        } else if (!informeModelo.guardado & informeModelo.errorGuardando !== null) {
             alert(informeModelo.errorGuardando); 
-            vnode.dom['btnsalir'].disabled = false;
             vnode.dom['btnguardarinforme'].disabled = false;
+            vnode.dom['btnsalir'].disabled = false;
             informeModelo.errorGuardando = '';
        }
     }, 
@@ -444,23 +445,18 @@ const editarInformeAnatomico = {
                             m("div[id='muestrasasociadas']", {
                                 style: {"border": "1px solid #c0ccda", "height": "100px", "padding": "5px", "overflow": "auto"}
                             }, [
-                                    // informeModelo.muestrasAsociadas se inicializa con informeModelo.muestras que tiene TODAS muestras Pedido
                                     informeModelo.muestras.map(function(muestra) { 
                                         let muestraSeleccDB = (informe.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) != -1)
                                         if (!muestraSeleccDB && muestra.valida == "0"){  
                                             return false;
                                         } 
-                                        if (informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) === -1){
-                                            
+                                        if (informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id) === -1) {
                                             informeModelo.muestrasAsociadas.push({
                                                 id: muestra.id,
                                                 checked: muestraSeleccDB
                                             })
-                                            
-                                            
                                         }  
                                         const indexItem = informeModelo.muestrasAsociadas.map(e => e.id).indexOf(muestra.id); 
-
                                         return [
                                             m("div", [
                                                 m("input[type='checkbox']", {
@@ -481,10 +477,7 @@ const editarInformeAnatomico = {
                                                 muestra.id + " - " + muestra.descripcion),
                                             ]),
                                         ]
-                                        
-                                       
-                                        
-                                    } ),
+                                    }),
                                 ]),
                             ]
                         ),
@@ -674,24 +667,8 @@ const editarInformeAnatomico = {
                                         informeModelo.error = "El campo Tipo Informe es Requerido";
                                         alert(informeModelo.error);
                                         vnode.dom['tipoinforme'].focus();
-                                    
-                                    //  }else if (vnode.dom['textareainformacionclinica'].value.length === 0) {
-                                    //     informeModelo.error = "El campo Información Clínica es Requerido";
-                                    //     alert(informeModelo.error);
-                                    //     vnode.dom['textareainformacionclinica'].focus();
-                                    // } else if (muestrasEnviadas.length === 0) {
-                                    //     informeModelo.error = "Debe asociar al menos una muestra.";
-                                    //     alert(informeModelo.error);
-                                    // } else if (vnode.dom['textareamacroscopico'].value.length === 0) {
-                                    //     informeModelo.error = "El campo Macroscópico es Requerido";
-                                    //     alert(informeModelo.error);
-                                    //     vnode.dom['textareamacroscopico'].focus();
-                                    // } else if (vnode.dom['textareadiagnostico'].value.length === 0) {
-                                    //     informeModelo.error = "El campo Resultado 1 es Requerido";
-                                    //     alert(informeModelo.error);
-                                    //     vnode.dom['textareadiagnostico'].focus();
                                     } else { 
-                                        this.style.display = "none";
+                                        this.disabled = true;
                                         vnode.dom['btnsalir'].disabled = true;
                                         let informeModificado = { 
                                             id: informe.id,       
