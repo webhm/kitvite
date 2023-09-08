@@ -355,12 +355,12 @@ const editarInformeAnatomico = {
                                     m('option', {value: "empty"}, ' -Seleccione- ' ),
                                     (informeModelo.informesReferencia != null)? 
                                         informeModelo.informesReferencia.map(
-                                            x =>m('option', {value: x.id} , 
+                                            x => (x.id != informe.id)? m('option', {value: x.id} , 
                                                 'Atención: ' + x.noatencionmv.padStart(12, '- ') 
                                                 + new Date(x.fechadocumento).toLocaleDateString('en-US').padStart(12, '- ')  
                                                 + x.descripcion.padStart(20, '- ') + 
-                                                new String(x.codigoinforme).padStart(15,"- ") 
-                                    )) : "" ,        
+                                                new String(x.codigoinforme).padStart(15,"- ")) : null
+                                    ) : "" ,        
                                 ]
                             ),
                         ]),                   

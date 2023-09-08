@@ -10,6 +10,7 @@ const editarMuestra = {
         if (vnode.attrs.muestra !== undefined) {
             muestra = vnode.attrs.muestra;
         } 
+        muestraModelo.getInformesAsoc(muestra.id);
     },  
     oncreate: (vnode) => {
         if (muestra && muestra.valida === "0") {
@@ -48,8 +49,10 @@ const editarMuestra = {
                         })
                     ]),
                 ]),                                                                                                  
-                m("tr", [  
-                    m(muestraValida, {muestra: muestra}),                  
+                m("tr", [
+                    (muestraModelo.informesAsociados > 0 && muestra.valida=="1")?  
+                            m("th.tx-12", {style: {'width': '30%'} } , "La muestra es válida, no se puede invalidar porque está asociada con "+muestraModelo.informesAsociados + " Informes" ) : 
+                            m(muestraValida, {muestra: muestra}),                  
                     m("td.tx-12", [
                         m('div#observacionesnovalida'), 
                         m("button.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
@@ -58,19 +61,19 @@ const editarMuestra = {
                                     muestraModelo.error = "El campo Descripción es Requerido";
                                     alert(muestraModelo.error);
                                     vnode.dom['inputmuestradescripcion'].focus();
-                                } else if (!vnode.dom['checkvalida'].checked && vnode.dom['inputobservacionesnovalida'].value.length === 0) {
-                                    muestraModelo.error = "El campo Observaciones es Requerido, cuando la muestra no es válida";
-                                    alert(muestraModelo.error);
-                                    vnode.dom['inputobservacionesnovalida'].focus();
-                                } else {
+                                } else if (vnode.dom.checkvalida != undefined &&  (!vnode.dom['checkvalida'].checked && vnode.dom['inputobservacionesnovalida'].value.length === 0) ) {
+                                        muestraModelo.error = "El campo Observaciones es Requerido, cuando la muestra no es válida";
+                                        alert(muestraModelo.error);
+                                        vnode.dom['inputobservacionesnovalida'].focus(); 
+                                }  else {
                                     let muestra = {
                                         id: parseInt(vnode.dom['inputmuestraid'].value),
                                         nopedidomv: parseInt(muestraModel.numeroPedido),
                                         noatencionmv: parseInt(muestraModel.numeroAtencion),
                                         nohistoriaclinicamv: parseInt(muestraModel.numeroHistoriaClinica),
                                         descripcion: vnode.dom['inputmuestradescripcion'].value,
-                                        valida:  vnode.dom['checkvalida'].checked ? 1 : 0,
-                                        observacionesmuestranovalida: vnode.dom['checkvalida'].checked ? null : vnode.dom['inputobservacionesnovalida'].value
+                                        valida: (vnode.dom.checkvalida == undefined) ? muestraModelo.valida : ( vnode.dom['checkvalida'].checked ) ? 1 : 0,
+                                        observacionesmuestranovalida: (vnode.dom.checkvalida != undefined) ? vnode.dom['checkvalida'].checked ? null : vnode.dom['inputobservacionesnovalida'].value : null
                                     }
                                     muestraModelo.actualizar(muestra);
                                     m.mount(document.querySelector("#gestion-muestras"), null);
