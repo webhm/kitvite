@@ -66,6 +66,8 @@ const listado = {
                                     : 
                                     m("button#btnfinalizarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", { 
                                         onclick: function(){
+                                            informeModelo.loading = true;
+                                            informeModelo.listado = [];
                                             informeModelo.finalizar(informe.id);                                            
                                         }
                                     }, [
