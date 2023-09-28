@@ -136,11 +136,9 @@ let informeModel = {
         })
         .then(function(result) {           
             informeModel.cargarListado(informeModel.numeroPedido); 
-            informeModel.loading = false;
             alert("El informe ha sido habilitado correctamente");
         })
         .catch(function(error) {
-          //  informeModel.guardado = false;
             informeModel.errorGuardando = "Se produjo error guardando el informe: " + error;
         }) 
     },
@@ -261,7 +259,6 @@ let informeModel = {
         })
         .then(function(result) {
             informeModel.cargarListado(informeModel.numeroPedido);
-            informeModel.loading = false;
             alert("El informe ha sido finalizado correctamente");
         })
         .catch(function(error) {
