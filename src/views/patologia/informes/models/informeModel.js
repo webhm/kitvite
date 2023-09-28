@@ -117,6 +117,33 @@ let informeModel = {
         }) 
     },
 
+    habilitar: (informe, usuario, descripcion) => {
+        informeModel.loading = true;
+        m.request({
+            method: 'POST',
+            url: api_url + "api/v1/auditoriainformes",
+            body: {
+                idinforme: informe.id,
+                usuario: usuario,
+                observaciones: descripcion,
+            },
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "Accept": "application/json",
+                "Authorization": localStorage.accessToken,
+            },
+        })
+        .then(function(result) {           
+            informeModel.cargarListado(informeModel.numeroPedido); 
+            informeModel.loading = false;
+            alert("El informe ha sido habilitado correctamente");
+        })
+        .catch(function(error) {
+          //  informeModel.guardado = false;
+            informeModel.errorGuardando = "Se produjo error guardando el informe: " + error;
+        }) 
+    },
+
     actualizar: (informe) => {
         m.request({
             method: 'PUT',
@@ -129,6 +156,7 @@ let informeModel = {
             },
         })
         .then(function(result) {
+            informeModel.cargarListado(informeModel.numeroPedido);
             informeModel.guardado = true;
             informeModel.errorGuardando = null;
         })

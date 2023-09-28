@@ -24,7 +24,7 @@ const editarInformeAnatomico = {
             informe = informeModelo.listado[0];
             informeModelo.loading = true;
             informeModelo.secuencialInforme = informe.codigoinforme;
-            informeModelo.diagnostiCIE = informe.iddiagncie10;
+            informeModelo.diagnostiCIE = informe.diagnostcie10;
             informeModelo.referenciaInfome = informe.referenciaInfome;
             informeModelo.getinformesreferenciahc(informeModel.numeroHistoriaClinica) ;
             macroscopicoModel.cargarListado(); 
@@ -54,6 +54,10 @@ const editarInformeAnatomico = {
         if (informeModelo.diagnostiCIE != "empty") { 
             vnode.dom['tipodiagnostiCIE'].value = informeModelo.diagnostiCIE  ;             
         } 
+        if (informeModelo.diagnostiCIE !== undefined) { 
+            opcdiagnostiCIE = informeModelo.diagnostiCIE;            
+            vnode.dom['tipodiagnostiCIE'].value = opcdiagnostiCIE;
+        }  
         if (informeModelo.referenciaInfome != "empty") { 
             vnode.dom['informeReferencia'].value = informeModelo.referenciaInfome  ;             
         } 
@@ -379,10 +383,10 @@ const editarInformeAnatomico = {
                                     opcdiagnostiCIE = e.target.value;   
                                     informeModelo.diagnostiCIE = e.target.value;
                                 },
-                                value: informe.iddiagncie10,
+                                value: informeModelo.diagnostiCIE,
                               }, [
                                     m('option', {value: "empty"}, ' -Seleccione- ' ),
-                                    informeModelo.tiposdiagnostiCIE.map(x =>m('option', {value: x.id} , x.id + ' - ' + x.descripcion)),                                
+                                    informeModelo.tiposdiagnostiCIE.map(x =>m('option', {value: x.id} , x.id + ' - ' + x.descripcion  )),                                
                                 ]
                             ),
                         ]),                   
@@ -560,6 +564,14 @@ const editarInformeAnatomico = {
                     ]),
                     m("tr", [        
                         m("td.tx-12", [
+                            m("input.form-control[id='tituloresultado1']", {
+                                style: "font-weight: bold;max-length: 100", 
+                                value: informe.tituloresultado1
+                            })
+                        ]),                    
+                    ]),
+                    m("tr", [        
+                        m("td.tx-12", [
                             m("textarea.form-control[id='textareadiagnostico']", {
                                 style: "min-height: 100px",
                                 rows: 4,
@@ -606,6 +618,14 @@ const editarInformeAnatomico = {
                     ]),
                     m("tr", [        
                         m("td.tx-12", [
+                            m("input.form-control[id='tituloresultado2']", {
+                                style: "font-weight: bold;max-length: 100", 
+                                value: informe.tituloresultado2
+                            })
+                        ]),                    
+                    ]),
+                    m("tr", [        
+                        m("td.tx-12", [
                             m("textarea.form-control[id='textarearesultado2']", {
                                 style: "min-height: 100px",
                                 rows: 4,
@@ -625,6 +645,15 @@ const editarInformeAnatomico = {
                             },
                             "RESULTADO 3:"),
                         ]),
+                    ]),
+                    m("tr", [        
+                        m("td.tx-12", [
+                            m("input.form-control[id='tituloresultado3']", {
+                                style: "font-weight: bold; max-length: 100", 
+                                value: informe.tituloresultado3
+                               
+                            })
+                        ]),                    
                     ]),
                     m("tr", [        
                         m("td.tx-12", [
@@ -682,10 +711,13 @@ const editarInformeAnatomico = {
                                             idtipoinforme: (vnode.dom.tipoinforme.selectedOptions.length > 0)? vnode.dom.tipoinforme.selectedOptions[0].value: opcionTipoInforme,                                         
                                             iddiagncie10: opcdiagnostiCIE,                                     
                                             referinforme: opcreferenciaInfome,
-                                            DIAGNOSTCIE10: (vnode.dom.tipodiagnostiCIE.selectedOptions.length > 0)? vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text : "",
+                                            diagnostcie10: (vnode.dom.tipodiagnostiCIE.selectedOptions.length > 0)? (opcdiagnostiCIE != "empty")?  vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text : "": "",
                                             cortes: cortes,
                                             resultado2: vnode.dom['textarearesultado2'].value,
                                             resultado3: vnode.dom['textarearesultado3'].value,
+                                            tituloresultado1: vnode.dom['tituloresultado1'].value,
+                                            tituloresultado2: vnode.dom['tituloresultado2'].value,
+                                            tituloresultado3: vnode.dom['tituloresultado3'].value,
                                         }
                                         informeModelo.actualizar(informeModificado);
                                     }

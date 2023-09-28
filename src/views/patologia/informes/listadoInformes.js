@@ -61,6 +61,9 @@ const listadoInformes = {
     }, 
     view: (vnode) => {
         return [
+            m("div#divhabilitaInforme.container.mg-l-0.mg-r-0", {
+                style: { "max-width": "100%" }
+            }),
             m("table.table", {style: {'margin': '0'}}, [
                 m("tr", [
                     m("td", [

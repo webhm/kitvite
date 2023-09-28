@@ -474,6 +474,14 @@ const informeAnatomico = {
                 ]),
                 m("tr", [        
                     m("td.tx-12", [
+                        m("input.form-control[id='tituloresultado1']", {
+                            style: "font-weight: bold;max-length: 100"
+                            
+                        })
+                    ]),                    
+                ]),
+                m("tr", [        
+                    m("td.tx-12", [
                         m("textarea.form-control[id='textareadiagnostico']", {
                             style: "min-height: 100px",
                             rows: 4,
@@ -516,6 +524,13 @@ const informeAnatomico = {
                 ]),
                 m("tr", [        
                     m("td.tx-12", [
+                        m("input.form-control[id='tituloresultado2']", {
+                            style: "font-weight: bold;max-length: 100"
+                        })
+                    ]),                    
+                ]),
+                m("tr", [        
+                    m("td.tx-12", [
                         m("textarea.form-control[id='textarearesultado2']", {
                             style: "min-height: 100px",
                             rows: 4,
@@ -531,6 +546,13 @@ const informeAnatomico = {
                         },
                         "RESULTADO 3:"),
                     ]),
+                ]),
+                m("tr", [        
+                    m("td.tx-12", [
+                        m("input.form-control[id='tituloresultado3']", {
+                            style: "font-weight: bold;max-length: 100"
+                        })
+                    ]),                    
                 ]),
                 m("tr", [        
                     m("td.tx-12", [
@@ -598,8 +620,11 @@ const informeAnatomico = {
                                         muestrasenviadas: muestrasEnviadas ,                                                                                
                                         iddiagncie10: opcdiagnostiCIE,                                                                             
                                         referinforme: opcreferenciaInfome,
-                                        DIAGNOSTCIE10: (vnode.dom.tipodiagnostiCIE.selectedOptions.length > 0)? vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text : "",
-                                        cortes: cortes                            
+                                        diagnostcie10: (vnode.dom.tipodiagnostiCIE.selectedOptions.length > 0)? (opcdiagnostiCIE != "empty")?  vnode.dom['tipodiagnostiCIE'].selectedOptions[0].text : "": "",
+                                        cortes: cortes ,
+                                        tituloresultado1: vnode.dom['tituloresultado1'].value,
+                                        tituloresultado2: vnode.dom['tituloresultado2'].value,
+                                        tituloresultado3: vnode.dom['tituloresultado3'].value                           
                                     }
                                     informeModelo.guardar(informe);
                                 }

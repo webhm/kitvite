@@ -1,6 +1,7 @@
 import m from 'mithril';
 import informeModel from './models/informeModel';
 import editarInforme from './editarInforme';
+import habilitarInforme from './habilitarInforme';
 
 let informeModelo = informeModel;
 
@@ -28,31 +29,48 @@ const listado = {
                             title: informe.estadopedido.descripcion
                         }, informe.estadopedido.siglas),
                         m("td.tx-12.wd-35p", {scope: "row"}, [
+                            informe.estadopedido.siglas === "A" ? 
+                                m("div.mg-0.mg-t-10.text-left.float-left",{"style": { "cursor": "default" },}, [
+                                    m("span.mg-r-10.mg-l-20.tx-semibold", 
+                                     "Finalizado" ),
+                                ])
+                            :                                 
+                                m("div.mg-0.mg-t-5.text-left.float-left", [
+                                    m("button.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", { 
+                                        onclick: () => {
+                                            //informeModelo.loading = true;
+                                            m.mount(document.querySelector("#gestionpatologia"), {
+                                                view: () => {
+                                                    return m(editarInforme, {
+                                                        "informeId": informe.id,
+                                                        "informeModelo": informeModelo
+                                                    })
+                                                }
+                                            });
+                                        }
+                                    }, [m("i.fas.fa-edit.mg-r-5")],  "Editar"),
+                                ]),
                             m("div.mg-0.mg-t-5.text-left.float-left", [
-                                m("button.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
-                                    disabled: informe.estadopedido.siglas === "A" ? true : false,
-                                    onclick: () => {
-                                        informeModelo.loading = true;
-                                        m.mount(document.querySelector("#gestionpatologia"), {
-                                            view: () => {
-                                                return m(editarInforme, {
-                                                    "informeId": informe.id,
-                                                    "informeModelo": informeModelo
-                                                })
-                                             }
-                                        });
-                                    }
-                                }, [m("i.fas.fa-edit.mg-r-5")], "Editar"),
-                            ]),
-                            m("div.mg-0.mg-t-5.text-left.float-left", [
-                                m("button#btnfinalizarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", {
-                                    disabled: informe.estadopedido.siglas === "A" ? true : false,
-                                    onclick: function() {
-                                        informeModelo.finalizar(informe.id);
-                                    }
-                                }, [
-                                    m("i.fas.mg-r-5", )], "Finalizar"
-                                ),
+                                informe.estadopedido.siglas === "A" ? 
+                                    m("button#btnfinalizarinforme.btn.btn-xs.btn-outline-info.mg-l-2.tx-semibold[type='button']", { 
+                                        onclick: function() { 
+                                            m.mount(document.querySelector("#divhabilitaInforme"), {
+                                                view: () => {
+                                                    return m(habilitarInforme, {"informe": informe})
+                                                }
+                                            });                                            
+                                        }
+                                    }, [
+                                        m("i.fas.mg-r-5", )], "Habilitar" 
+                                    ) 
+                                    : 
+                                    m("button#btnfinalizarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", { 
+                                        onclick: function(){
+                                            informeModelo.finalizar(informe.id);                                            
+                                        }
+                                    }, [
+                                        m("i.fas.mg-r-5", )], "Finalizar"
+                                    ),
                             ]),
                             m("div.mg-0.mg-t-5.text-left.float-left", [
                                 m(m.route.Link, {
