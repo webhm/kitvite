@@ -13,8 +13,6 @@ let diagnosticoModelo = diagnosticoModel;
 let opcionTipoInforme = '';
 let opcdiagnostiCIE  = '';
 let opcreferenciaInfome  = '';
-let modifMuestras = false;
-
 
 const editarInformeAnatomico = {
     oninit: (vnode) => { 
@@ -51,14 +49,13 @@ const editarInformeAnatomico = {
         }       
         if (informeModelo.secuencialInforme != undefined) {
             vnode.dom['inputinformeid'].value = informeModelo.secuencialInforme  ;
-        }       
-        if (informeModelo.diagnostiCIE != "empty") { 
-            vnode.dom['tipodiagnostiCIE'].value = informeModelo.iddiagncie10  ;             
         } 
-        if (informeModelo.diagnostiCIE !== undefined) { 
-            opcdiagnostiCIE = informeModelo.iddiagncie10;            
+        if (opcdiagnostiCIE !== "") { 
             vnode.dom['tipodiagnostiCIE'].value = opcdiagnostiCIE;
-        }  
+        } else if (informeModelo.iddiagncie10) {
+            vnode.dom['tipodiagnostiCIE'].value = informeModelo.iddiagncie10;
+            opcdiagnostiCIE = informeModelo.iddiagncie10;
+        } 
         if (informeModelo.referenciaInfome != "empty") { 
             vnode.dom['informeReferencia'].value = informeModelo.referenciaInfome  ;             
         } 
@@ -382,9 +379,8 @@ const editarInformeAnatomico = {
                                 id: "tipodiagnostiCIE",
                                 onchange: function(e) {
                                     opcdiagnostiCIE = e.target.value;   
-                                    informeModelo.diagnostiCIE = e.target.value;
                                 },
-                                value: informeModelo.iddiagncie10,
+                                value: opcdiagnostiCIE,
                               }, [
                                     m('option', {value: "empty"}, ' -Seleccione- ' ),
                                     informeModelo.tiposdiagnostiCIE.map(x =>m('option', {value: x.id} , x.id + ' - ' + x.descripcion  )),                                
