@@ -1,6 +1,5 @@
 import m from 'mithril';
 import api_url from '../../utils/api_url';
-import listado from '../listado';
 
 let informeModel = {
     listado: [],
@@ -119,6 +118,7 @@ let informeModel = {
 
     habilitar: (informe, usuario, descripcion) => {
         informeModel.loading = true;
+        informeModel.listado = [];
         m.request({
             method: 'POST',
             url: api_url + "api/v1/auditoriainformes",
@@ -247,6 +247,7 @@ let informeModel = {
 
     finalizar: (informeId) => {
         informeModel.loading = true;
+        informeModel.listado = [];
         m.request({
             method: 'POST',
             url: api_url + "api/v1/informe/finalizaInforme/" + informeId,

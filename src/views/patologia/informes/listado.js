@@ -38,7 +38,6 @@ const listado = {
                                 m("div.mg-0.mg-t-5.text-left.float-left", [
                                     m("button.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", { 
                                         onclick: () => {
-                                            //informeModelo.loading = true;
                                             m.mount(document.querySelector("#gestionpatologia"), {
                                                 view: () => {
                                                     return m(editarInforme, {
@@ -66,9 +65,7 @@ const listado = {
                                     : 
                                     m("button#btnfinalizarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", { 
                                         onclick: function(){
-                                            informeModelo.loading = true;
-                                            informeModelo.listado = [];
-                                            informeModelo.finalizar(informe.id);                                            
+                                            informeModelo.finalizar(informe.id);                               
                                         }
                                     }, [
                                         m("i.fas.mg-r-5", )], "Finalizar"
