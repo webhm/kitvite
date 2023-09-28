@@ -11,6 +11,7 @@ let informeModel = {
     tiposinforme: [],
     tiposdiagnostiCIE: [],
     diagnostiCIE: '',
+    iddiagncie10: '',
     consecutivo: '',
     numeroPedido: '',
     numeroAtencion: '',

@@ -25,6 +25,7 @@ const editarInformeAnatomico = {
             informeModelo.loading = true;
             informeModelo.secuencialInforme = informe.codigoinforme;
             informeModelo.diagnostiCIE = informe.diagnostcie10;
+            informeModelo.iddiagncie10 = informe.iddiagncie10;
             informeModelo.referenciaInfome = informe.referenciaInfome;
             informeModelo.getinformesreferenciahc(informeModel.numeroHistoriaClinica) ;
             macroscopicoModel.cargarListado(); 
@@ -52,10 +53,10 @@ const editarInformeAnatomico = {
             vnode.dom['inputinformeid'].value = informeModelo.secuencialInforme  ;
         }       
         if (informeModelo.diagnostiCIE != "empty") { 
-            vnode.dom['tipodiagnostiCIE'].value = informeModelo.diagnostiCIE  ;             
+            vnode.dom['tipodiagnostiCIE'].value = informeModelo.iddiagncie10  ;             
         } 
         if (informeModelo.diagnostiCIE !== undefined) { 
-            opcdiagnostiCIE = informeModelo.diagnostiCIE;            
+            opcdiagnostiCIE = informeModelo.iddiagncie10;            
             vnode.dom['tipodiagnostiCIE'].value = opcdiagnostiCIE;
         }  
         if (informeModelo.referenciaInfome != "empty") { 
@@ -383,7 +384,7 @@ const editarInformeAnatomico = {
                                     opcdiagnostiCIE = e.target.value;   
                                     informeModelo.diagnostiCIE = e.target.value;
                                 },
-                                value: informeModelo.diagnostiCIE,
+                                value: informeModelo.iddiagncie10,
                               }, [
                                     m('option', {value: "empty"}, ' -Seleccione- ' ),
                                     informeModelo.tiposdiagnostiCIE.map(x =>m('option', {value: x.id} , x.id + ' - ' + x.descripcion  )),                                
