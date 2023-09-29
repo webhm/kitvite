@@ -2,6 +2,7 @@ import m from 'mithril';
 import informeModel from './models/informeModel';
 import editarInforme from './editarInforme';
 import habilitarInforme from './habilitarInforme';
+import loader from '../utils/loader';
 
 let informeModelo = informeModel;
 
@@ -65,9 +66,7 @@ const listado = {
                                     : 
                                     m("button#btnfinalizarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", { 
                                         onclick: function(){
-                                            informeModelo.finalizar(informe.id);  
-                                            informeModelo.loading = true;
-                                            informeModelo.listado = [];                          
+                                            informeModelo.finalizar(informe.id);
                                         }
                                     }, [
                                         m("i.fas.mg-r-5", )], "Finalizar"

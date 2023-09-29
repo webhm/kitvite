@@ -28,6 +28,7 @@ let informeModel = {
         
     cargarListado: function(numeropedidomv) {
         informeModel.loading = true;
+        informeModel.listado = [];
         m.request({
             method: "GET",
             url: api_url + "api/v1/informe?nopedidomv=" + numeropedidomv,
