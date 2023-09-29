@@ -135,9 +135,9 @@ let informeModel = {
                 "Authorization": localStorage.accessToken,
             },
         })
-        .then(function(result) {           
-            informeModel.cargarListado(informeModel.numeroPedido); 
-            alert("El informe ha sido habilitado correctamente");
+        .then(function(result) { 
+            alert("El informe ha sido habilitado correctamente");          
+            informeModel.cargarListado(informeModel.numeroPedido);
         })
         .catch(function(error) {
             informeModel.errorGuardando = "Se produjo error guardando el informe: " + error;
@@ -260,8 +260,8 @@ let informeModel = {
             },
         })
         .then(function(result) {
-            informeModel.cargarListado(informeModel.numeroPedido);
             alert("El informe ha sido finalizado correctamente");
+            informeModel.cargarListado(informeModel.numeroPedido);
         })
         .catch(function(error) {
             informeModel.loading = false;

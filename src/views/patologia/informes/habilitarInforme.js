@@ -55,8 +55,6 @@ const habilitarInforme = {
                                 }else{
                                     m.mount(document.querySelector("#divhabilitaInforme"), null); 
                                     informeModelo.habilitar(informe,nombreusuario, vnode.dom['inputdescripcion'].value);
-                                    informeModelo.loading = true;
-                                    informeModelo.listado = [];
                                 }
                             },
                                 style: {'margin': '15px 5px 0 5px', "width": "90px", 'padding': '5px'}
