@@ -55,7 +55,7 @@ const listado = {
                                         onclick: function() { 
                                             m.mount(document.querySelector("#divhabilitaInforme"), {
                                                 view: () => {
-                                                    return m(habilitarInforme, {"informe": informe})
+                                                    return m(habilitarInforme, {"informe": informe});
                                                 }
                                             });                                            
                                         }
@@ -65,7 +65,9 @@ const listado = {
                                     : 
                                     m("button#btnfinalizarinforme.btn.btn-xs.btn-primary.mg-l-2.tx-semibold[type='button']", { 
                                         onclick: function(){
-                                            informeModelo.finalizar(informe.id);                               
+                                            informeModelo.finalizar(informe.id);  
+                                            informeModelo.loading = true;
+                                            informeModelo.listado = [];                          
                                         }
                                     }, [
                                         m("i.fas.mg-r-5", )], "Finalizar"

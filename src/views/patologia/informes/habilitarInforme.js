@@ -2,8 +2,6 @@ import m from 'mithril';
 import Auth from '../../../models/auth';
 import App from '../../app';
 import informeModelo from './models/informeModel';
-import listado from './listado';
-import loader from '../utils/loader';
 
 let nombreusuario = null;
 let corteModelo = null;
@@ -16,7 +14,6 @@ const habilitarInforme = {
         if (vnode.attrs.informe !== undefined) {
             informe = vnode.attrs.informe;
         } 
-        // muestraModelo.getInformesAsoc(muestra.id);
     },  
     oncreate: (vnode) => {
         vnode.dom['inputdescripcion'].focus();
@@ -57,14 +54,9 @@ const habilitarInforme = {
                                     alert ('Debe ingresar alguna observación (motivo) para habilitar el informe');
                                 }else{
                                     m.mount(document.querySelector("#divhabilitaInforme"), null); 
+                                    informeModelo.habilitar(informe,nombreusuario, vnode.dom['inputdescripcion'].value);
                                     informeModelo.loading = true;
                                     informeModelo.listado = [];
-                                    informeModelo.habilitar(informe,nombreusuario, vnode.dom['inputdescripcion'].value); 
-                                    
-                                    //informeModelo.cargarListado( informeModelo.numeroPedido);
-                                    //m.mount(document.querySelector("#divhabilitaInforme"), null); 
-                                    //m.mount(document.querySelector("div#loader-informes"), loader);
-                                    //m.mount(document.querySelector("table.table#listado-informes"), null); 
                                 }
                             },
                                 style: {'margin': '15px 5px 0 5px', "width": "90px", 'padding': '5px'}
