@@ -42,12 +42,17 @@ const MenuSidebar = {
                 ]
             }
         };
-
+        
         if (_data.length !== 0) {
             return [
                 _data.modulesAccess.patologia.map(function(_v, _i, _contentData) {
                     return [
-                        m(m.route.Link, { href: "/" + _v.href, class: ((SidebarPato.page == parseInt(_v.idModulo)) ? "active" : "") }, [
+                        m(m.route.Link, { 
+                            href: "/" + _v.href, 
+                            class: ((SidebarPato.page == parseInt(_v.idModulo)) ? "active" : ""),
+                            onclick: function () {
+                                window.reload();
+                            }}, [
                             _v.label
                         ]),
                     ]
@@ -63,7 +68,7 @@ const SidebarPato = {
     setPage: (page) => {
         SidebarPato.page = page;
     },
-    view: () => {
+    view: () => {        
         return [
             m(".sidebar.sidebar-fixed.sidebar-components[id='sidebarMenu']", [
                 m("div.sidebar-header", [
