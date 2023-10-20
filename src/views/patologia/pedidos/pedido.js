@@ -700,6 +700,10 @@ const PedidoPatologia = {
                                                     "style": { "cursor": "pointer" },
                                                     title: "Cerrar",
                                                     onclick: () => {
+                                                        PedidoPatologias.loader = true;
+                                                        PedidoPatologias.fetchEstadosPedidos();
+                                                        
+                                                        PedidoPatologias.fetchPedidos();
                                                         if (PedidoPatologias.idFiltro !== undefined && PedidoPatologias.idFiltro > 1) {
                                                             m.route.set('/patologia/pedidos/', {
                                                                 idFiltro: PedidoPatologias.idFiltro,
