@@ -33,7 +33,7 @@ const PatologiaPedidos = {
     fechaHasta: "",
     searchField: "",
     pedidosId: [],
-    idFiltro: 0,
+    idFiltro: 1,
     loader: false,
     error: "",
     oninit: (_data) => {
@@ -254,9 +254,7 @@ const PatologiaPedidos = {
     },
     fetchPedidos: () => {
         let _queryString = '';
-        if (PatologiaPedidos.idFiltro == undefined) {
-            PatologiaPedidos.idFiltro = 1;
-        }
+
         if (PatologiaPedidos.idFiltro == 1) {
             _queryString = '?type=ingresadas&idFiltro=' + PatologiaPedidos.idFiltro;
         } else {
