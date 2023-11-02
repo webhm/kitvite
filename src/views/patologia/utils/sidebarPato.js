@@ -21,7 +21,7 @@ const MenuSidebar = {
                         "idModulo": "27",
                         "modulo": "patologia",
                         "href": "patologia/gestionPlantillaMacroscopico",
-                        "label": "Gestión Plantillas Macróscopico"
+                        "label": "Gestión Plantillas"
                     },
                     {
                         "idUser": "159",
@@ -29,7 +29,7 @@ const MenuSidebar = {
                         "idModulo": "28",
                         "modulo": "patologia",
                         "href": "patologia/gestionPlantillaDiagnostico",
-                        "label": "Gestión Plantillas Diagnóstico"
+                        "label": "Gestión de Plantillas Diagnósticas"
                     },
                     {
                         "idUser": "159",

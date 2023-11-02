@@ -60,7 +60,7 @@ const MenuPatologia = {
                                 ),
                                 m("div", { "class": "media-body mg-l-15" }, [
                                     m("p", { "class": "tx-18 mg-b-0" },
-                                        "Gestión Plantillas Macróscopico",
+                                        "Gestión Plantillas",
                                     ),
                                     m("p", { "class": "mg-b-0 tx-11 tx-color-03 tx-medium tx-spacing-1 tx-sans" },
                                         "Ir a Plantillas Macróscopico",
@@ -82,7 +82,7 @@ const MenuPatologia = {
                                 ),
                                 m("div", { "class": "media-body mg-l-15" }, [
                                     m("p", { "class": "tx-18 mg-b-0" },
-                                        "Gestión Plantillas Diagnóstico",
+                                        "Gestión de Plantillas Diagnósticas",
                                     ),
                                     m("p", { "class": "mg-b-0 tx-11 tx-color-03 tx-medium tx-spacing-1 tx-sans" },
                                         "Ir a Plantillas Diagnóstico",
